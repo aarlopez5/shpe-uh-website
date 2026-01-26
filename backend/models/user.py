@@ -36,12 +36,15 @@ class UserBase(SQLModel):
     role: Role = Field(default=Role.member)
     points: int = Field(default=0, ge=0)
 
-class User(SQLModel, table=True):
+class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    hashed_pass: str 
+    hashed_password: str 
 
 class UserCreate(UserBase):
     password: str
+
+class UserOut(UserBase):
+    pass
 
 class Committee(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
