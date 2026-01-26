@@ -4,8 +4,6 @@ from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel
 from fastapi.security import OAuth2PasswordBearer
 import jwt
-from jwt.exceptions import InvalidTokenError
-from pwdlib import PasswordHash
 
 load_dotenv()
 
@@ -23,12 +21,6 @@ class TokenData(BaseModel):
     email: str | None = None
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-
-def get_password_hash(password: str):
-    return PasswordHash.recommended().hash(password)
-
-def verify_password(password, hashed_password):
-    return PasswordHash.recommended().verify(password, hashed_password)
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
