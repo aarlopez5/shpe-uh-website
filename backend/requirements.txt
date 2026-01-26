@@ -1,3 +1,7 @@
 fastapi
 uvicorn[standard]
 SQLModel
+pydantic[email]
+pyjwt
+pwdlib[argon2]
+python-multipart

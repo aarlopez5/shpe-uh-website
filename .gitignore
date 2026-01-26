@@ -1,4 +1,3 @@
-# ---- Python / FastAPI ----
 .venv/
 backend/venv/
 venv/
@@ -9,23 +8,19 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 
-# ---- Node / React (Vite) ----
 node_modules/
 dist/
 build/
 .vite/
 
-# ---- Env / secrets ----
 .env
 .env.*
 !.env.example
 
-# ---- Logs ----
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# ---- OS / Editor ----
 .DS_Store
 Thumbs.db
 .vscode/
