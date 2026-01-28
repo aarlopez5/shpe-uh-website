@@ -46,7 +46,7 @@ async def me(user: Annotated[User, Depends(get_current_user)]):
 # Creates user form sign up
 @app.post('/signup', status_code=status.HTTP_201_CREATED)
 async def signup(user_in: UserCreate, session: SessionDependencies):
-    existing_user = get_user_by_email(session, normalize_email(user_in))
+    existing_user = get_user_by_email(session, normalize_email(user_in.email))
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
