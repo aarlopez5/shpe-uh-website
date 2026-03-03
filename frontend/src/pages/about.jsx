@@ -13,31 +13,31 @@ export function ScrollTransitionHero() {
   });
 
   // Transform values for the title - zoom in effect
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
-  const titleScale = useTransform(scrollYProgress, [0, 0.3], [1, 2.5]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.2, 0.3], [1, 1, 0]);
+  const titleScale = useTransform(scrollYProgress, [0, 0.3], [1, 2]);
   const titleY = useTransform(scrollYProgress, [0, 0.3], [0, -100]);
   
   // Transform values for the paragraph - just fade in, no zoom
-  const paragraphOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]);
+  const paragraphOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1]);
 
   return (
-    <div ref={containerRef} className="relative min-h-[200vh]">
+    <div ref={containerRef} className="relative overflow-clip min-h-[150vh]">
       {/* Title Section - Zooms in */}
       <motion.div
         style={{ opacity: titleOpacity, scale: titleScale, y: titleY }}
-        className="sticky top-0 flex flex-col items-center justify-center min-h-screen overflow-hidden relative"
+        className="sticky top-0 overflow-hidden max-h-screen flex items-center justify-center"
       >
-        {/* Background Image */}
-        <img alt="" className="absolute inset-0 w-full h-full object-cover" src={shpeSpirit} />
-        
-        {/* Clear overlay */}
-        <div className="absolute inset-0 bg-white/600 z-0"></div>
-        
-        <div className="text-center px-4 relative z-10">
-          <h1 className="text-[120px] md:text-[200px] leading-none font-bold" style={{ fontFamily: 'Work Sans, sans-serif' }}>
-            <span className="text-[#1a2858]">our</span>
-            <br />
-            <span className="text-[#d33a02] italic">story</span>
+
+        <div className="relative z-10 flex min-h-screen items-center justify-center w-full">
+          <h1 className="leading-none font-bold flex flex-col" style={{ fontFamily: 'Work Sans, sans-serif' }}>
+            <span className="text-[#1a2858] text-[70px] md:text-[116px] left-18 md:left-28 relative">our</span>
+            <span className="px-5 -mt-6 text-[150px] md:text-[298px] italic" style={{ 
+              backgroundImage: `url(${shpeSpirit})`, 
+              backgroundSize: 'cover',
+              backgroundClip: 'text',
+              backgroundPositionY: '-100px',
+              color: 'rgba(211,58,2,0.8)'
+               }}>story</span>
           </h1>
         </div>
       </motion.div>
@@ -45,22 +45,24 @@ export function ScrollTransitionHero() {
       {/* Paragraph Section - Large rectangle with background */}
       <motion.div
         style={{ opacity: paragraphOpacity }}
-        className="sticky top-[20vh] left-0 right-0 flex items-center justify-center px-8"
+        className="relative w-full md:min-h-screen min-h-[60vh] flex items-center justify-center overflow-hidden bg-[#1a2858]"
       >
-        <div className="w-full max-w-7xl mx-auto relative overflow-hidden bg-[#1a2858]" style={{ minHeight: '600px' }}>
-          {/* SHPE Spirit background image with multiply blend */}
-          <img 
-            alt="" 
-            className="absolute inset-0 w-full h-full object-cover" 
-            style={{ mixBlendMode: 'multiply' }} 
-            src={shpeSpirit} 
-          />
-          
-          <div className="relative z-10 flex items-center justify-center" style={{ minHeight: '600px', padding: '80px 60px' }}>
-            <p style={{ color: 'white', fontSize: 36, fontFamily: 'Work Sans', fontWeight: '500', lineHeight: '1.5', wordWrap: 'break-word' }}>
-              The SHPE University of Houston student chapter arose when a local company recruiter influenced a group of motivated Latino students. Both the student and recruiter wanted UH to be represented at the National Technical & Career Conference (NTTC). Upon reaching enough support from fellow students and faculty, Iveth Martinez, the founder, and the rest of the cabinet worked earnestly to build a solid foundation for future success of the chapter. We became recognized as a student chapter by the National Organization on May 11, 2002.
-            </p>
-          </div>
+        {/* background image */}
+        <img
+          alt=""
+          src={shpeSpirit}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ mixBlendMode: "multiply" }}
+        />
+
+        {/* content */}
+        <div className="relative z-10 w-full max-w-5xl px-6 md:p-0">
+          <p
+            className="text-center text-xl md:text-2xl lg:text-4xl text-white font-medium leading-snug"
+            style={{ fontFamily: "Work Sans, sans-serif" }}
+          >
+            The SHPE University of Houston student chapter arose when a local company recruiter influenced a group of motivated Latino students. Both the student and recruiter wanted UH to be represented at the National Technical & Career Conference (NTTC). Upon reaching enough support from fellow students and faculty, Iveth Martinez, the founder, and the rest of the cabinet worked earnestly to build a solid foundation for future success of the chapter. We became recognized as a student chapter by the National Organization on May 11, 2002.
+          </p>
         </div>
       </motion.div>
     </div>
@@ -97,7 +99,7 @@ export function PillarsSection() {
 
   return (
     <div 
-      className="py-20 px-8 relative overflow-hidden"
+      className="my-15 px-8 relative overflow-hidden"
       style={{
         backgroundImage: `url(${shpeSpirit})`,
         backgroundSize: 'cover',
@@ -108,9 +110,10 @@ export function PillarsSection() {
       <div className="absolute inset-0 bg-white/90" style={{ mixBlendMode: 'pass-through' }}></div>
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <h2 className="text-6xl md:text-8xl font-bold text-center mb-16 text-[#1170b9]">
+        <h2 className="text-6xl md:text-8xl font-bold text-center mb-8 text-[#1170b9]">
           Our Pillars
         </h2>
+        <p className="text-[#71AABF] text-2xl md:text-4xl sm:text-3xl font-bold text-center mb-8">Here at SHPE-UH, we strive to advance our mission of empowering the Hispanic community by focusing on our 5 Core Pillars.</p>
 
         <div ref={ref} className="relative max-w-5xl mx-auto min-h-[600px]">
           {/* Top row - 3 pillars */}
@@ -206,9 +209,9 @@ export function VisionSection() {
 
           {/* Values */}
           <div className="text-center md:text-left">
-            <h3 className="text-4xl font-bold mb-6">values</h3>
+            <h3 className="text-4xl font-bold mb-6">Values</h3>
             <p className="text-sm leading-relaxed">
-              FAMILIA: Service, Learning & Diversity, Resilience, and Integrity.
+              Familia, Service, Learning & Diversity, Resilience, and Integrity.
             </p>
           </div>
 
@@ -271,7 +274,7 @@ export default function About() {
     <div className="size-full relative">
       
       {/* Main content with padding for fixed header */}
-      <main className="pt-16 relative">
+      <main>
         <ScrollTransitionHero />
         <PillarsSection />
         <VisionSection />
