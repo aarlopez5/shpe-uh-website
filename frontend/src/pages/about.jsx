@@ -113,7 +113,7 @@ export function PillarsSection() {
         <h2 className="text-6xl md:text-8xl font-bold text-center mb-8 text-[#1170b9]">
           Our Pillars
         </h2>
-        <p className="text-[#71AABF] text-2xl md:text-4xl sm:text-3xl font-bold text-center mb-8">Here at SHPE-UH, we strive to advance our mission of empowering the Hispanic community by focusing on our 5 Core Pillars.</p>
+        <p className="text-[#71AABF] text-xl md:text-4xl font-bold text-center mb-8">Here at SHPE-UH, we strive to advance our mission of empowering the Hispanic community by focusing on our 5 Core Pillars.</p>
 
         <div ref={ref} className="relative max-w-5xl mx-auto min-h-[600px]">
           {/* Top row - 3 pillars */}
