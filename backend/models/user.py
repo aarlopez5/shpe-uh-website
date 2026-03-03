@@ -14,7 +14,7 @@ class Role(str, Enum):
     regional_rep = "Regional Representative"
     new_member_rep = "New Member Representative"
     dir_int_aff = "Director Of Internal Affairs"
-    dir_ext_aff = "Director Of External Affairs"
+    # dir_ext_aff = "Director Of External Affairs" 
     marketing_chair = "Marketing Chair"
     mentorshpe_chair = "MentorSHPE Chair"
     academic_chair = "Academic Chair"
