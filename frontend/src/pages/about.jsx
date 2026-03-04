@@ -30,14 +30,21 @@ export function ScrollTransitionHero() {
 
         <div className="relative z-10 flex min-h-screen items-center justify-center w-full">
           <h1 className="leading-none font-bold flex flex-col" style={{ fontFamily: 'Work Sans, sans-serif' }}>
-            <span className="text-[#1a2858] text-[70px] md:text-[116px] left-18 md:left-28 relative">our</span>
-            <span className="px-5 -mt-6 text-[150px] md:text-[298px] italic" style={{ 
-              backgroundImage: `url(${shpeSpirit})`, 
-              backgroundSize: 'cover',
-              backgroundClip: 'text',
-              backgroundPositionY: '-100px',
-              color: 'rgba(211,58,2,0.8)'
-               }}>story</span>
+            <span className="text-[#1a2858] text-[58px] md:text-[116px] left-14 md:left-28 relative">our</span>
+            {/* Background image with multiply overlay with orange inside story text */}
+            <span 
+              className="px-5 pb-5 -mb-5 -mt-6 md:-mt-13 text-[150px] md:text-[298px] italic" 
+              style={{ 
+                backgroundImage: `linear-gradient(rgba(211,58,2,0.95), rgba(211,58,2,0.95)), url(${shpeSpirit})`,
+                backgroundBlendMode: 'multiply',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                backgroundClip: 'text',
+                color: 'transparent',
+              }}
+            >
+              story
+            </span>
           </h1>
         </div>
       </motion.div>
@@ -272,8 +279,6 @@ export function EBoardSection() {
 export default function About() {
   return (
     <div className="size-full relative">
-      
-      {/* Main content with padding for fixed header */}
       <main>
         <ScrollTransitionHero />
         <PillarsSection />

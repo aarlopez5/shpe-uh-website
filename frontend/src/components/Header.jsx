@@ -17,14 +17,14 @@ function NavItem({ to, children }) {
       {({ isActive }) => (
         <span className={`navLinkInner ${isActive ? "active" : ""}`}>
           {children}
-          {
-          <motion.span
-            className="underline"
-            layoutId="nav-underline"
-            initial={false}
-            animate={{ opacity: isActive ? 1 : 0 }}
-            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-          />
+          { isActive &&
+            (<motion.span
+              className="underline"
+              layoutId="nav-underline"
+              initial={false}
+              animate={{ opacity: isActive ? 1 : 0 }}
+              transition={{ type: "spring", stiffness: 380, damping: 30 }}
+            />)
           }
         </span>
       )}

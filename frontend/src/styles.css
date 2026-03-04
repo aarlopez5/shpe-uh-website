@@ -40,7 +40,7 @@ a{ color:inherit; text-decoration:none; }
 .nav{ display:flex; gap:22px; align-items:center; flex-wrap:wrap; justify-content:center; }
 .navLink{ position:relative; font-weight:600; color:var(--navText); }
 .navLinkInner{ position:relative; padding:8px 2px; }
-.navLinkInner.active{ font-weight:800; }
+.navLinkInner.active{ color: var(--blue); }
 .underline{
   position:absolute;
   left:0; right:0;
