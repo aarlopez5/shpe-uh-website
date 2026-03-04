@@ -2,7 +2,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useInView } from 'framer-motion';
-import shpeSpirit from '../assets/images/SHPESpiritWeb.png';    
+import shpeSpirit from '../assets/images/SHPESpiritWeb.png';
+import pillarImg from '../assets/images/pillar.png'
 
 export function ScrollTransitionHero() {
   const containerRef = useRef(null);
@@ -39,8 +40,10 @@ export function ScrollTransitionHero() {
                 backgroundBlendMode: 'multiply',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
-                backgroundClip: 'text',
-                color: 'transparent',
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
               }}
             >
               story
@@ -105,94 +108,52 @@ export function PillarsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <div 
-      className="my-15 px-8 relative overflow-hidden"
-      style={{
-        backgroundImage: `url(${shpeSpirit})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      {/* White overlay for visibility */}
-      <div className="absolute inset-0 bg-white/90" style={{ mixBlendMode: 'pass-through' }}></div>
-      
+    <div className="md:my-15 my-8 px-8 relative overflow-hidden">
+
       <div className="max-w-7xl mx-auto relative z-10">
         <h2 className="text-6xl md:text-8xl font-bold text-center mb-8 text-[#1170b9]">
           Our Pillars
         </h2>
         <p className="text-[#71AABF] text-xl md:text-4xl font-bold text-center mb-8">Here at SHPE-UH, we strive to advance our mission of empowering the Hispanic community by focusing on our 5 Core Pillars.</p>
 
-        <div ref={ref} className="relative max-w-5xl mx-auto min-h-[600px]">
-          {/* Top row - 3 pillars */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-            {pillars.slice(0, 3).map((pillar, index) => (
-              <motion.div
+        <div className='md:my-20 text-l md:text-3xl font-bold text-[#f16635]'>
+          <div ref={ref} className="relative max-w-5xl mx-auto">
+            {/* Top row - 3 pillars */}
+            <div className="grid grid-cols-3 gap-12 md:mb-12 mb-6">
+              {pillars.slice(0, 3).map((pillar, index) => (
+                
+                <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="flex flex-col items-center"
-              >
-                <h3 className="text-2xl md:text-3xl font-bold text-[#f16635] mb-6 text-center whitespace-pre-line">
-                  {pillar.title}
-                </h3>
-                
-                {/* Stacked blue blocks with vertical stripes */}
-                <div className="w-full max-w-[200px] space-y-3">
-                  {[0, 1].map((blockIndex) => (
-                    <div key={blockIndex} className="relative">
-                      <div className="bg-[#1a2858] h-24 flex items-center justify-center relative overflow-hidden">
-                        {/* Vertical stripes pattern */}
-                        <div className="absolute inset-0 flex">
-                          {[...Array(12)].map((_, i) => (
-                            <div
-                              key={i}
-                              className={`flex-1 ${i % 2 === 0 ? 'bg-white/20' : 'bg-transparent'}`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                >
+                  <h3 className="mb-3 text-center whitespace-pre-line">
+                    {pillar.title}
+                  </h3>
+                  <img alt='Pillar' src={pillarImg} className='md:w-[10vw] w-[20vw]' />
+                </motion.div>
+              ))}
+            </div>
 
-          {/* Bottom row - 2 pillars centered */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-2xl mx-auto">
-            {pillars.slice(3, 5).map((pillar, index) => (
-              <motion.div
+            {/* Bottom row - 2 pillars centered */}
+            <div className="grid grid-cols-2 md:gap-12 md:max-w-2xl max-w-md mx-auto">
+              {pillars.slice(3, 5).map((pillar, index) => (
+                <motion.div
                 key={index + 3}
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                 transition={{ duration: 0.6, delay: (index + 3) * 0.15 }}
                 className="flex flex-col items-center"
-              >
-                <h3 className="text-2xl md:text-3xl font-bold text-[#f16635] mb-6 text-center whitespace-pre-line">
-                  {pillar.title}
-                </h3>
-                
-                {/* Stacked blue blocks with vertical stripes */}
-                <div className="w-full max-w-[200px] space-y-3">
-                  {[0, 1].map((blockIndex) => (
-                    <div key={blockIndex} className="relative">
-                      <div className="bg-[#1a2858] h-24 flex items-center justify-center relative overflow-hidden">
-                        {/* Vertical stripes pattern */}
-                        <div className="absolute inset-0 flex">
-                          {[...Array(12)].map((_, i) => (
-                            <div
-                              key={i}
-                              className={`flex-1 ${i % 2 === 0 ? 'bg-white/20' : 'bg-transparent'}`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+                >
+                  <h3 className="mb-3 text-center whitespace-pre-line">
+                    {pillar.title}
+                  </h3>
+                  <img alt='Pillar' src={pillarImg} className='md:w-[10vw] w-[20vw]' />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
