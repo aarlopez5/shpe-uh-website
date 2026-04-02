@@ -5,8 +5,12 @@ import auditorium from "../assets/images/Auditorium.png"
 
 export function Hero() {
   return (
-    <div>
-      <img src={confetti} alt="Confetti background" className="z-0 absolute inset-0 w-full h-full"/>
+    <div className="relative w-full min-h-screen overflow-clip">
+      <img 
+        src={confetti} 
+        alt="Confetti background" 
+        className="absolute block top-25 w-full h-full object-cover"
+      />
       <div
         className= "relative z-10 flex flex-col min-h-screen items-center justify-center gap-7"
         style={{
@@ -17,9 +21,9 @@ export function Hero() {
 
         }}
       >
-        <h1 className="z-10 flex flex-col items-center">
+        <h1 className="mt-12 z-10 flex flex-col items-center bg-white">
           <span 
-            className="px-5 -mb-5 -mt-6 md:-mt-13 text-[100px] md:text-[100px] font-bold" 
+            className="px-5 -mb-5 -mt-6 md:-mt-13 text-[150px] md:text-[150px] font-bold" 
             style={{ 
               backgroundImage: `linear-gradient(rgba(211,58,2,0.95), rgba(211,58,2,0.95)), url(${shpeSpirit})`,
               backgroundBlendMode: 'multiply',
@@ -51,17 +55,17 @@ export function Hero() {
         </h1>
 
         <p
+          className="max-w-[60%] bg-white"
           style={{ 
             fontFamily: "Work Sans, sans-serif",
             color: "#1A2858",
             textAlign: 'center',
-            fontSize: "25px",
+            fontSize: "30px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "normal",
             letterSpacing: "-0.72px",
           }}
-          className="maxw"
         >
           SHPE is the source for quality Hispanic engineers and technical talent. While you may not be Hispanic or an engineer, you can still join and take advantage of the benefits and opportunities offered by SHPE at the national and local levels.
         </p>
@@ -98,11 +102,34 @@ export function JoinSecton(){
   );
 }
 
+export function Points() {
+  return (
+    <div>
+      <h1
+        style={{
+          backgroundImage: `linear-gradient(rgba(211,58,2,0.95), rgba(211,58,2,0.95)), url(${shpeSpirit})`,
+          backgroundBlendMode: 'multiply',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+          WebkitTextFillColor: "transparent",
+        }}
+        className=""
+      >
+        The Point System
+      </h1>
+    </div>
+  )
+}
+
 export default function MemberSHPE() {
   return (
-    <section className="page">
+    <>
       <Hero />
       <JoinSecton />
-    </section>
+      <Points />
+    </>
   );
 }
