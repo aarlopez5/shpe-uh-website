@@ -7,7 +7,7 @@ import waves from "../assets/images/waves.png"
 export default function Home() {
 	const [email, setEmail] = useState('');
 	return (
-		<section className="page text-[#001F5B] overflow-x-hidden">
+		<section className="text-[#001F5B] overflow-x-hidden">
 			{/* <div className="text-[#001F5B] overflow-x-hidden"> */}
 			<section
 				id="intro"
