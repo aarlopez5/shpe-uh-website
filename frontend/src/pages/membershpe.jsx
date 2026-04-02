@@ -74,29 +74,38 @@ export function Hero() {
   );
 }
 
-function JoinImages(image){
-  return {
-    backgroundImage: `url(${image})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    width: "100%",        
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-}
-
 export function JoinSecton(){
-
   return (
     <>
-    <div style={JoinImages(shpeSpirit)}>
+    <div className="relative h-screen">
+      <img src={shpeSpirit} alt="shpe spirit" className="absolute inset-0 w-full h-full object-cover"/>
+      <div className="absolute inset-0" style={{
+        backgroundColor: "#1A2858",
+        opacity: 0.9,
+        height: "100%",
+        width: "63%",
+        mixBlendMode: "multiply"
+      }}/>
     </div>
-    <div style={JoinImages(lonestarShowdown)}>
+    <div className="relative h-screen">
+      <img src={lonestarShowdown} alt="lonestar" className="absolute inset-0 w-full h-full object-cover"/>
+      <div className="absolute inset-0" style={{
+        backgroundColor: "#1A2858",
+        opacity: 0.9,
+        height: "100%",
+        width: "63%",
+        mixBlendMode: "multiply"
+      }}/>
     </div>
-    <div style={JoinImages(auditorium)}>
+    <div className="relative h-screen">
+      <img src={auditorium} alt="auditorium" className="absolute inset-0 w-full h-full object-cover"/>
+      <div className="absolute inset-0" style={{
+        backgroundColor: "#1A2858",
+        opacity: 0.9,
+        height: "100%",
+        width: "63%",
+        mixBlendMode: "multiply"
+      }}/>
     </div>
     </>
   );
