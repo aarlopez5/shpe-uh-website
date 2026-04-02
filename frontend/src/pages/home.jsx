@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import shpeSpirit from "../assets/images/SHPESpiritWeb.png"
+import shpeLogo from "../assets/images/shpelogo.png"
+import homeDecor from "../assets/images/homeDecor.png"
+import waves from "../assets/images/waves.png"
 
 export default function Home() {
 	const [email, setEmail] = useState('');
@@ -12,7 +16,7 @@ export default function Home() {
 				{/* Left: group photo */}
 				<div className="relative w-[42%] flex-shrink-0 overflow-hidden">
 					<img
-						src="/src/assets/images/prueba1.png"
+						src={shpeSpirit}
 						alt="SHPE UH members in front of Cullen Building"
 						className="w-full h-full object-cover object-top"
 					/>
@@ -66,7 +70,7 @@ export default function Home() {
 
 				<div className="flex items-center justify-center">
 					<img
-						src="/src/assets/images/shpelogo.png"
+						src={shpeLogo}
 						alt="SHPE logo"
 						className="w-[clamp(180px,22vw,320px)] mix-blend-multiply"
 					/>
@@ -80,7 +84,7 @@ export default function Home() {
 				{/* homeDecor.png — floating circles background */}
 				<div className="absolute inset-0 z-0 pointer-events-none">
 					<img
-						src="/src/assets/images/homeDecor.png"
+						src={homeDecor}
 						alt=""
 						aria-hidden="true"
 						className="w-full h-full object-cover mix-blend-screen opacity-85"
@@ -110,7 +114,7 @@ export default function Home() {
 				{/* waves.png background */}
 				<div className="absolute inset-0 z-0 pointer-events-none">
 					<img
-						src="/src/assets/images/waves.png"
+						src={waves}
 						alt=""
 						aria-hidden="true"
 						className="w-full h-full object-cover object-top "
