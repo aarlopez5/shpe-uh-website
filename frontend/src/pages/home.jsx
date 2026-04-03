@@ -3,42 +3,38 @@ import shpeSpirit from "../assets/images/SHPESpiritWeb.png"
 import shpeLogo from "../assets/images/shpelogo.png"
 import homeDecor from "../assets/images/homeDecor.png"
 import waves from "../assets/images/waves.png"
+import polygons from "../assets/images/Deco.png"
 
 export default function Home() {
 	const [email, setEmail] = useState('');
 	return (
 		<section className="text-[#001F5B] overflow-x-hidden mt-20">
 			<section className="relative min-h-[90vh] w-full overflow-hidden">
-				{/* Left image */}
 
-				{/* Main navy diagonal */}
-				<div className="z-10 absolute left-0 top-0 h-full w-[60%] overflow-hidden [clip-path:polygon(0_0,15%_0,75%_100%,0_100%)]">
+				{/* Image and pattern section */}
+				<div className='absolute h-full w-[80%]'>
+					{/* Image and Shadow Section */}
+					<div className='shadowWrapper absolute z-80 w-full h-full' style={{ filter: "drop-shadow(6px 12px 20px rgba(0,0,0,0.8))"}}>
+						<div className="imageClip absolute left-0 top-0 h-full w-full overflow-hidden md:[clip-path:polygon(0_0,15%_0,66%_100%,0_100%)] lg:[clip-path:polygon(0_0,15%_0,60%_100%,0_100%)]">
+							<img
+							src={shpeSpirit}
+							alt="SHPE members"
+							className="absolute h-full w-full object-cover object-[95%_center]"
+							/>
+						</div>
+					</div>
+
+					{/* Deco Image */}
 					<img
-					src={shpeSpirit}
-					alt="SHPE members"
-					className="h-full w-full object-cover absolute right-50 shadow-2xl"
+						src={polygons}
+						alt="Polygon decoration"
+						className="absolute md:right-[1%] lg:right-[20%] top-0 z-10 h-full max-w-none object-contain"
 					/>
 				</div>
-				<div className="z-0 absolute left-[12%] top-[18%] h-[58rem] w-[32rem] rotate-[45deg] bg-[#0A3D78]" />
-
-				{/* Orange top accent */}
-				{/* <div className="absolute left-[22%] top-[-8%] z-20 h-[20rem] w-[12rem] rotate-[45deg] bg-[#E64900]" /> */}
-
-				{/* Light blue center block */}
-				{/* <div className="absolute left-[30%] top-[3%] z-20 h-[32rem] w-[18rem] rotate-[45deg] bg-[#7FA8BE]" /> */}
-
-				{/* Blue lower block */}
-				{/* <div className="absolute left-[34%] top-[42%] z-30 h-[22rem] w-[18rem] rotate-[45deg] bg-[#1E6FB7]" /> */}
-
-				{/* Small gray accent top right */}
-				{/* <div className="absolute right-[14%] top-[4%] z-10 h-[9rem] w-[9rem] rotate-[45deg] bg-[#C7D0E0]" /> */}
-
-				{/* Orange accent bottom right */}
-				{/* <div className="absolute right-[-5%] top-[52%] z-10 h-[16rem] w-[16rem] rotate-[45deg] bg-[#FF6B2D]" /> */}
 
 				{/* Right: headline + CTA */}
-				<div className="relative flex-1 flex flex-col items-end justify-center">
-					<p className="font-semibold text-[clamp(2rem,3.8vw,4rem)] leading-tight tracking-tight text-right">
+				<div className="absolute h-full z-100 w-[40%] right-0 flex flex-col items-center justify-evenly">
+					<p className="font-semibold text-[64px] leading-tight tracking-tight text-right">
 						<span className="text-[#D33A02]">Join</span> the{' '}
 						<span className="text-[#FD652F]">leading</span>
 						<br />
@@ -46,15 +42,15 @@ export default function Home() {
 						<span className="text-[#72A9BE]">STEM</span>
 					</p>
 
-					<p className="font-semibold text-[clamp(1rem,2.2vw,1.75rem)] leading-snug tracking-tight text-right [text-shadow:0_4px_4px_#fff] text-[#001F5B]">
-						Your journey starts at SHPE
+					<p className="text-center font-semibold text-[50px] leading-snug tracking-tight [text-shadow:0_4px_4px_#fff] text-[#001F5B]">
+						Your journey<br/>starts at SHPE
 						<br />
-						<span className="text-[#C8102E]">University of Houston</span>
+						<span className="text-[#C8102E]">University of<br/>Houston</span>
 					</p>
 
 					<button
 						type="button"
-						className="text-[#ffffff] bg-[#F16635] border border-[#0070C0] rounded-[20px]"
+						className="text-white text-xl font-bold p-4 bg-[#D24028] border border-[#0070C0] rounded-[20px]"
 						>
 						Become a Member
 					</button>
@@ -62,13 +58,13 @@ export default function Home() {
 			</section>
 			<section
 				id="info"
-				className="bg-white px-[8%] py-20 flex items-center justify-evenly flex-wrap"
+				className="bg-white py-20 flex flex-row w-screen items-center justify-evenly flex-wrap"
 			>
-				<div className="max-w-[340px] text-right">
-					<h2 className="text-[#D33A02] font-semibold text-xl mb-3">
+				<div className="flex flex-col items-end flex-1 ml-10 w-[75%] text-right">
+					<h2 className="text-[#D33A02] font-semibold text-3xl mb-3">
 						What we do?
 					</h2>
-					<p className="text-sm leading-7 text-[#001F5B]">
+					<p className="lg:w-[60%] text-lg text-[#001F5B]">
 						The Society of Hispanic Professional Engineers (SHPE){' '}
 						<span className="text-[#C8102E]">University of Houston</span>{' '}
 						chapter was founded in 2002. Since then this chapter has been
@@ -81,11 +77,11 @@ export default function Home() {
 					</p>
 				</div>
 
-				<div className="flex items-center justify-center">
+				<div className="flex-1 flex items-center justify-center">
 					<img
 						src={shpeLogo}
 						alt="SHPE logo"
-						className="w-[clamp(180px,22vw,320px)] mix-blend-multiply"
+						className="md:w-[80%] lg:w-[50%] mix-blend-multiply"
 					/>
 				</div>
 			</section>
