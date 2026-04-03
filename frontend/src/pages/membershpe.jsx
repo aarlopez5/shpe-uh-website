@@ -113,7 +113,7 @@ export function JoinSecton(){
 
 export function Points() {
   return (
-    <div>
+    <div className="min-h-screen w-full flex flex-col justify-evenly items-center">
       <h1
         style={{
           backgroundImage: `linear-gradient(rgba(211,58,2,0.95), rgba(211,58,2,0.95)), url(${shpeSpirit})`,
@@ -125,10 +125,24 @@ export function Points() {
           color: "transparent",
           WebkitTextFillColor: "transparent",
         }}
-        className=""
+        className="text-8xl font-medium py-5 "
       >
         The Point System
       </h1>
+
+      <div>
+        <p 
+          className="text-center text-3xl"
+          style={{
+            fontFamily: "Work Sans sans-serif",
+            fontStyle: "normal",
+            fontWeight: 400,
+            letterSpacing: "0.5px"
+          }}
+        >
+          How to earn points...<br />+4 Assist Outreach events <br />+3 General Meeting Sign In<br />+2 General Meeting Sign Out<br />+3 Assist Professional events <br />+2 Assist Off-Campus events <br />+3 Assist SRT/Social events <br />+1 Assist SHPEresenting Thursday<br />+2 Bringing a new member<br />+2 Wearing SHPE shirt for General Meeting<br />+1 Submit Pictures!<br />+2 Assist committee meeting<br />+2 Committee Sign In (Events)<br />+4 Elections/vote<br /><br />The top 5 most active members are awarded at each General meeting!
+        </p>
+      </div>
     </div>
   )
 }
