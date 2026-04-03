@@ -17,7 +17,7 @@ export default function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/about" element={<About />} />
-					<Route path="/get-involved" element={<GetInvolved />} />
+					{/* <Route path="/get-involved" element={<GetInvolved />} /> */}
 					<Route path="/membershpe" element={<MemberSHPE />} />
 					<Route path="/sponsors" element={<Sponsors />} />
 					<Route path="/gallery" element={<Gallery />} />
@@ -26,10 +26,10 @@ export default function App() {
 						path="/pages/about"
 						element={<Navigate to="/about" replace />}
 					/>
-					<Route
+					{/* <Route
 						path="/pages/get-involved"
 						element={<Navigate to="/get-involved" replace />}
-					/>
+					/> */}
 					<Route
 						path="/pages/membershpe"
 						element={<Navigate to="/membershpe" replace />}
