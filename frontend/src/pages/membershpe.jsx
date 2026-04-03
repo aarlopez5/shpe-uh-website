@@ -116,7 +116,7 @@ export function Points() {
           color: "transparent",
           WebkitTextFillColor: "transparent",
         }}
-        className="text-8xl font-medium py-5 "
+        className="text-8xl font-bold py-5 "
       >
         The Point System
       </h1>

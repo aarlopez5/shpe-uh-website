@@ -36,13 +36,13 @@ function HeroSection() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-8 pt-20 flex flex-col md:flex-row items-center gap-8 md:gap-16">
         <div className="flex-1">
           <h1
-            className="font-bold leading-none"
+            className="font-bold leading-none text-center"
             style={{ fontFamily: 'Work Sans, sans-serif' }}
           >
             <span className="block text-[110px] md:text-[200px] text-[#d33a02] tracking-tight">
               Thank
             </span>
-            <span className="block text-[130px] md:text-[260px] text-[#d33a02] tracking-tight -mt-6 md:-mt-12">
+            <span className="block text-[130px] md:text-[320px] text-[#d33a02] tracking-tight -mt-6 md:-mt-12">
               YOU
             </span>
           </h1>
@@ -134,7 +134,7 @@ function ContactSection() {
               placeholder="e.g., email@example.com"
               value={form.email}
               onChange={handleChange}
-              className="bg-[#71AABF] rounded-xl px-6 py-4 text-[#003A70] placeholder-[#003A70]/50 font-medium text-lg outline-none"
+              className="bg-[#71aabf54] rounded-xl px-6 py-4 text-[#003a706e] placeholder-[#003a706e]/50 font-medium text-lg outline-none"
               style={{ fontFamily: 'Work Sans, sans-serif' }}
             />
           </div>
@@ -152,7 +152,7 @@ function ContactSection() {
               placeholder="e.g., Support"
               value={form.subject}
               onChange={handleChange}
-              className="bg-[#71AABF] rounded-xl px-6 py-4 text-[#003A70] placeholder-[#003A70]/50 font-medium text-lg outline-none"
+              className="bg-[#71aabf54] rounded-xl px-6 py-4 text-[#003a706e] placeholder-[#003a706e]/50 font-medium text-lg outline-none"
               style={{ fontFamily: 'Work Sans, sans-serif' }}
             />
           </div>
@@ -170,7 +170,7 @@ function ContactSection() {
               value={form.message}
               onChange={handleChange}
               rows={6}
-              className="bg-[#71AABF] rounded-xl px-6 py-4 text-[#003A70] placeholder-[#003A70]/50 font-medium text-lg outline-none resize-none"
+              className="bg-[#71aabf54] rounded-xl px-6 py-4 text-[#003a706e] placeholder-[#003a706e]/50 font-medium text-lg outline-none"
               style={{ fontFamily: 'Work Sans, sans-serif' }}
             />
           </div>
@@ -187,7 +187,8 @@ function ContactSection() {
             className="text-3xl md:text-5xl font-bold text-[#003A70]"
             style={{ fontFamily: 'Work Sans, sans-serif' }}
           >
-            Interested in sponsoring SHPE-UH?
+            Interested in sponsoring <br /> 
+            <p className='leading-15'>SHPE‑UH?</p>
           </h3>
           <p
             className="text-[#71AABF] text-xl md:text-2xl font-medium"
