@@ -34,7 +34,7 @@ export default function Home() {
 
 				{/* Right: headline + CTA */}
 				<div className="absolute h-full z-100 w-[40%] right-0 flex flex-col items-center justify-evenly">
-					<p className="font-semibold text-[64px] leading-tight tracking-tight text-right">
+					<p className="font-semibold text-[64px] leading-tight tracking-tight text-center">
 						<span className="text-[#D33A02]">Join</span> the{' '}
 						<span className="text-[#FD652F]">leading</span>
 						<br />
