@@ -32,7 +32,6 @@ export function ScrollTransitionHero() {
         <div className="relative z-10 flex min-h-screen items-center justify-center w-full">
           <h1 className="leading-none font-bold flex flex-col" style={{ fontFamily: 'Work Sans, sans-serif' }}>
             <span className="text-[#1a2858] text-[58px] md:text-[116px] left-14 md:left-28 relative">our</span>
-            {/* Background image with multiply overlay with orange inside story text */}
             <span 
               className="px-5 pb-5 -mb-5 -mt-6 md:-mt-13 text-[150px] md:text-[298px] italic" 
               style={{ 
