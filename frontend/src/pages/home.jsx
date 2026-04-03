@@ -7,20 +7,34 @@ import waves from "../assets/images/waves.png"
 export default function Home() {
 	const [email, setEmail] = useState('');
 	return (
-		<section className="text-[#001F5B] overflow-x-hidden">
-			{/* <div className="text-[#001F5B] overflow-x-hidden"> */}
-			<section
-				id="intro"
-				className="relative flex min-h-screen bg-white overflow-hidden"
-			>
-				{/* Left: group photo */}
-				<div className="relative w-[42%] flex-shrink-0 overflow-hidden">
+		<section className="text-[#001F5B] overflow-x-hidden mt-20">
+			<section className="relative min-h-[90vh] w-full overflow-hidden">
+				{/* Left image */}
+
+				{/* Main navy diagonal */}
+				<div className="z-10 absolute left-0 top-0 h-full w-[60%] overflow-hidden [clip-path:polygon(0_0,15%_0,75%_100%,0_100%)]">
 					<img
-						src={shpeSpirit}
-						alt="SHPE UH members in front of Cullen Building"
-						className="w-full h-full object-cover object-top"
+					src={shpeSpirit}
+					alt="SHPE members"
+					className="h-full w-full object-cover absolute right-50 shadow-2xl"
 					/>
 				</div>
+				<div className="z-0 absolute left-[12%] top-[18%] h-[58rem] w-[32rem] rotate-[45deg] bg-[#0A3D78]" />
+
+				{/* Orange top accent */}
+				{/* <div className="absolute left-[22%] top-[-8%] z-20 h-[20rem] w-[12rem] rotate-[45deg] bg-[#E64900]" /> */}
+
+				{/* Light blue center block */}
+				{/* <div className="absolute left-[30%] top-[3%] z-20 h-[32rem] w-[18rem] rotate-[45deg] bg-[#7FA8BE]" /> */}
+
+				{/* Blue lower block */}
+				{/* <div className="absolute left-[34%] top-[42%] z-30 h-[22rem] w-[18rem] rotate-[45deg] bg-[#1E6FB7]" /> */}
+
+				{/* Small gray accent top right */}
+				{/* <div className="absolute right-[14%] top-[4%] z-10 h-[9rem] w-[9rem] rotate-[45deg] bg-[#C7D0E0]" /> */}
+
+				{/* Orange accent bottom right */}
+				{/* <div className="absolute right-[-5%] top-[52%] z-10 h-[16rem] w-[16rem] rotate-[45deg] bg-[#FF6B2D]" /> */}
 
 				{/* Right: headline + CTA */}
 				<div className="relative flex-1 flex flex-col items-end justify-center">
@@ -41,12 +55,11 @@ export default function Home() {
 					<button
 						type="button"
 						className="text-[#ffffff] bg-[#F16635] border border-[#0070C0] rounded-[20px]"
-					>
+						>
 						Become a Member
 					</button>
 				</div>
 			</section>
-
 			<section
 				id="info"
 				className="bg-white px-[8%] py-20 flex items-center justify-evenly flex-wrap"
