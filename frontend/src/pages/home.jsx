@@ -130,16 +130,16 @@ export default function Home() {
 					/>
 				</div>
 
-				<h2 className="relative z-[1] text-[#fff] text-[clamp(1.5rem,4vw,2.5rem)] mb-2">
+				<h2 className="relative z-1 text-white font-semibold text-[clamp(1.5rem,4vw,2.5rem)] mb-2">
 					NEWSLETTER INTEREST FORM
 				</h2>
 
-				<p className="relative z-[1] text-[#D33A02] font-semibold text-base mb-8">
+				<p className="relative z-1 text-[#F16635] font-semibold text-base mb-8">
 					Sign up for news and opportunities
 				</p>
 
 				<form
-					className="relative z-[1] flex flex-wrap justify-center"
+					className="relative z-1 flex flex-row gap-5 flex-wrap justify-center"
 					onSubmit={(e) => {
 						e.preventDefault();
 						alert(`Subscribed: ${email}`);
@@ -152,17 +152,16 @@ export default function Home() {
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						required
-						className="w-[clamp(200px,35vw,360px)] h-[54px] bg-white rounded-[20px] px-5 text-[#001F5B] text-base outline-none focus:ring-2 focus:ring-[#0070C0]"
+						className="w-[clamp(200px,35vw,360px)] h-13.5 bg-white rounded-[20px] px-5 text-[#001F5B] text-base outline-none focus:ring-2 focus:ring-[#0070C0]"
 					/>
 					<button
-						type="submit"
-						className="h-[54px] bg-[#F16635] text-[#ffffff] rounded-[20px]"
-					>
-						SUBSCRIBE
+						type="button"
+						className="text-white font-bold h-13.5 px-5 bg-[#D24028] rounded-[20px]"
+						>
+						Subscribe
 					</button>
 				</form>
 			</section>
-			{/* </div> */}
 		</section>
 	);
 }
