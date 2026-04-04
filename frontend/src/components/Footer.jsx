@@ -4,6 +4,9 @@ import { FaFacebookF, FaXTwitter, FaTiktok, FaInstagram, FaLinkedinIn } from "re
 import { motion } from "framer-motion";
 import { href } from "react-router-dom";
 
+import shpeHoriztonalWhite from "../assets/logos/shpeHorizontalWhite.png"
+
+
 const socials = [
   { icon: <FaFacebookF />, label: "Facebook", href:"https://www.facebook.com/shpeuh" },
   { icon: <FaXTwitter />, label: "X", href:"https://twitter.com/shpe_uh" },
@@ -18,16 +21,10 @@ export default function Footer() {
       <div className="footerInner">
         <div className="footerLeft">
           <div className="footerLogo">
-            <div className="footerMark" aria-hidden />
-            <div>
-              <div className="footerTitle">SHPE</div>
-              <div className="footerTag">Leading Hispanics in STEM</div>
+            <div className="footerMark" >
+              <img src={shpeHoriztonalWhite} alt="SHPE LOGO" />
             </div>
           </div>
-
-          <div className="divider" />
-
-          <div className="footerUH">University of Houston</div>
 
           <div className="footerContact">
             <div>chapter@shpeuh.org</div>

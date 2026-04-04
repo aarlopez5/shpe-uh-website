@@ -32,10 +32,8 @@ a{ color:inherit; text-decoration:none; }
   padding:18px 16px;
   gap:18px;
 }
-.brand{ display:flex; align-items:center; gap:12px; min-width:260px; }
-.brandMark{ width:52px; height:52px; border-radius:14px; background:#e5e7eb; }
-.brandTop{ font-weight:800; letter-spacing:0.5px; }
-.brandSub{ color:var(--muted); font-size:14px; margin-top:2px; }
+.brand{ display:flex; align-items:center; gap:12px; width:260px; }
+.brandMark{ border-radius:14px; }
 
 .nav{ display:flex; gap:22px; align-items:center; flex-wrap:wrap; justify-content:center; }
 .navLink{ position:relative; font-weight: 400; color:var(--navText); }
@@ -99,16 +97,12 @@ a{ color:inherit; text-decoration:none; }
   padding:0 16px;
   align-items:flex-start;
 }
-.footerLeft{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.footerLeft{ display:flex; align-items:center; gap:50px; flex-wrap:wrap; }
 .footerLogo{ display:flex; gap:12px; align-items:center; }
-.footerMark{ width:56px; height:56px; border-radius:16px; background:rgba(255,255,255,0.18); }
-.footerTitle{ font-size:34px; font-weight:900; line-height:1; }
-.footerTag{ color:#ffd27d; font-weight:700; margin-top:6px; font-size:12px; }
-.divider{ width:1px; height:56px; background:rgba(255,255,255,0.25); }
-.footerUH{ font-size:22px; font-weight:600; opacity:0.95; }
+.footerMark{ width: 380px; border-radius:16px; }
 .footerContact{ color:rgba(255,255,255,0.9); line-height:1.6; }
 
-.footerRight{ text-align:right; }
+.footerRight{ text-align:center; }
 .footerFollow{ font-weight:700; margin-bottom:10px; }
 .socialRow{ display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
 .socialBtn{

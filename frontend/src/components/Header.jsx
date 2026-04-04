@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import shpeHoriztonalLogo from "../assets/logos/shpeHorizontalLogo.png"
 
 const links = [
   { label: "Home", to: "/" },
@@ -37,10 +38,8 @@ export default function Header() {
     <header className="header">
       <div className="headerRow">
         <div className="brand">
-          <div className="brandMark" aria-hidden />
-          <div className="brandText">
-            <div className="brandTop">SHPE</div>
-            <div className="brandSub">University of Houston</div>
+          <div className="brandMark" >
+            <img src={shpeHoriztonalLogo} alt="SHPE LOGO" />
           </div>
         </div>
 
