@@ -6,25 +6,25 @@ import auditorium from "../assets/images/Auditorium.png"
 export function Hero() {
   return (
     <div className="relative w-full min-h-screen overflow-clip">
-      <img 
-        src={confetti} 
-        alt="Confetti background" 
+      <img
+        src={confetti}
+        alt="Confetti background"
         className="absolute block top-25 w-full h-full object-cover"
       />
       <div
-        className= "relative z-10 flex flex-col min-h-screen items-center justify-center gap-7"
+        className="relative z-10 flex flex-col min-h-screen items-center justify-center gap-7"
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",            
+          justifyContent: "center",
           fontFamily: "Work Sans, sans-serif"
 
         }}
       >
         <h1 className="mt-12 z-10 flex flex-col items-center bg-white">
-          <span 
-            className="px-5 -mb-5 -mt-6 md:-mt-13 text-[150px] md:text-[150px] font-bold" 
-            style={{ 
+          <span
+            className="px-5 -mb-5 -mt-6 md:-mt-13 text-[150px] md:text-[150px] font-bold"
+            style={{
               backgroundImage: `linear-gradient(rgba(211,58,2,0.95), rgba(211,58,2,0.95)), url(${shpeSpirit})`,
               backgroundBlendMode: 'multiply',
               backgroundSize: 'cover',
@@ -37,12 +37,12 @@ export function Hero() {
           >
             Bienvenidos
           </span>
-          <span 
+          <span
             style={{
               fontFamily: "Work Sans, sans-serif",
               color: "#1A2858",
               textAlign: 'center',
-              textShadow:"0 1px 1px rgba(0, 0, 0, 0.25)",
+              textShadow: "0 1px 1px rgba(0, 0, 0, 0.25)",
               fontSize: "80px",
               fontStyle: "normal",
               fontWeight: 500,
@@ -56,7 +56,7 @@ export function Hero() {
 
         <p
           className="max-w-[60%] bg-white"
-          style={{ 
+          style={{
             fontFamily: "Work Sans, sans-serif",
             color: "#1A2858",
             textAlign: 'center',
@@ -74,31 +74,39 @@ export function Hero() {
   );
 }
 
-function JoinImages(image){
+function ImageStyle() {
   return {
-    backgroundImage: `url(${image})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    width: "100%",        
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "#1A2858",
+    opacity: 1,
+    height: "100%",
+    width: "63%",
+    mixBlendMode: "multiply"
   };
 }
 
-export function JoinSecton(){
-
+export function JoinSecton() {
   return (
-    <>
-    <div style={JoinImages(shpeSpirit)}>
+    <div className="relative">
+      {/* da 3 images*/}
+      <div className="relative w-full">
+        <img src={shpeSpirit} alt="shpe spirit" className="block w-full h-auto" />
+        <div className="absolute inset-0" style={ImageStyle()} />
+      </div>
+      <div className="relative w-full">
+        <img src={lonestarShowdown} alt="lonestar" className="block w-full h-auto" />
+        <div className="absolute inset-0" style={ImageStyle()} />
+      </div>
+      <div className="relative w-full">
+        <img src={auditorium} alt="auditorium" className="block w-full h-auto" />
+        <div className="absolute inset-0" style={ImageStyle()} />
+      </div>
+      {/* text box over da 3 images*/}
+      <div className="absolute inset-0 z-10 flex items-center justify-center w-[63%]">
+        <p className="text-white text-xl">
+          Why Join SHPE?
+        </p>
+      </div>
     </div>
-    <div style={JoinImages(lonestarShowdown)}>
-    </div>
-    <div style={JoinImages(auditorium)}>
-    </div>
-    </>
   );
 }
 
@@ -122,7 +130,7 @@ export function Points() {
       </h1>
 
       <div>
-        <p 
+        <p
           className="text-center text-3xl"
           style={{
             fontFamily: "Work Sans sans-serif",
