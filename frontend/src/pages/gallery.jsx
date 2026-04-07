@@ -1,8 +1,10 @@
+import GalleryApproved from "../components/GalleryApproved";
+
 export default function Gallery() {
+  // Header and Footer are already rendered globally in App.jsx.
   return (
-    <section className="page">
-      <h2>Gallery</h2>
-      <p>Photos and media.</p>
-    </section>
+    <div className="bg-white min-h-screen mt-20">
+      <GalleryApproved />
+    </div>
   );
 }
