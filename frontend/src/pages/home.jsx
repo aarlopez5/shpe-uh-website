@@ -155,7 +155,7 @@ export default function Home() {
 						className="w-[clamp(200px,35vw,360px)] h-13.5 bg-white rounded-[20px] px-5 text-[#001F5B] text-base outline-none focus:ring-2 focus:ring-[#0070C0]"
 					/>
 					<button
-						type="button"
+						type="submit"
 						className="text-white font-bold h-13.5 px-5 bg-[#D24028] rounded-[20px]"
 						>
 						Subscribe
