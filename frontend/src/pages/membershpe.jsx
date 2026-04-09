@@ -21,9 +21,9 @@ export function Hero() {
 
         }}
       >
-        <h1 className="mt-12 z-10 flex flex-col items-center bg-white px-4">
+        <h1 className="mt-12 z-10 flex flex-col items-center bg-white">
           <span
-            className="px-5 -mb-2 -mt-4 md:-mt-10 text-[clamp(3rem,10vw,9rem)] font-bold leading-none"
+            className="px-5 -mb-5 -mt-6 md:-mt-13 text-[150px] md:text-[150px] font-bold"
             style={{
               backgroundImage: `linear-gradient(rgba(211,58,2,0.95), rgba(211,58,2,0.95)), url(${shpeSpirit})`,
               backgroundBlendMode: 'multiply',
@@ -38,13 +38,12 @@ export function Hero() {
             Bienvenidos
           </span>
           <span
-            className="px-4 pb-2"
             style={{
               fontFamily: "Work Sans, sans-serif",
               color: "#1A2858",
               textAlign: 'center',
               textShadow: "0 1px 1px rgba(0, 0, 0, 0.25)",
-              fontSize: "clamp(2rem, 6vw, 5rem)",
+              fontSize: "80px",
               fontStyle: "normal",
               fontWeight: 500,
               lineHeight: "normal",
@@ -56,15 +55,15 @@ export function Hero() {
         </h1>
 
         <p
-          className="max-w-[90%] md:max-w-[70%] bg-white px-4 py-3"
+          className="max-w-[60%] bg-white"
           style={{
             fontFamily: "Work Sans, sans-serif",
             color: "#1A2858",
             textAlign: 'center',
-            fontSize: "clamp(1rem, 2.2vw, 1.875rem)",
+            fontSize: "30px",
             fontStyle: "normal",
             fontWeight: 500,
-            lineHeight: 1.35,
+            lineHeight: "normal",
             letterSpacing: "-0.72px",
           }}
         >
@@ -80,7 +79,7 @@ function ImageStyle() {
     backgroundColor: "#1A2858",
     opacity: 1,
     height: "100%",
-    width: "62%",
+    width: "63%",
     mixBlendMode: "multiply"
   };
 }
@@ -99,14 +98,13 @@ export function JoinSecton() {
       </div>
 
       {/* text box for first two images */}
-      <div className="absolute top-0 bottom-0 left-0 w-[62%] z-10 flex flex-col items-start justify-start px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto">
+      <div className="absolute top-0 bottom-0 left-0 w-[63%] z-10 flex flex-col items-start justify-start pl-60 pt-30 pr-50">
         <h1 style={{
           color: "white",
           fontFamily: "Work Sans, sans-serif",
           fontSize: "150px",
           fontWeight: 600,
-          letterSpacing: "1.5px",
-          lineHeight: 1.08,
+          letterSpacing: "3%",
           textAlign: "left"
         }}>
           Why Join SHPE?
@@ -115,11 +113,10 @@ export function JoinSecton() {
         <p style={{
           color: "#FD652F",
           fontFamily: "Work Sans, sans-serif",
-          fontSize: "36px",
+          fontSize: "45px",
           fontWeight: "700",
-          letterSpacing: "0.8px",
-          lineHeight: 1.25,
-          marginTop: "12px"
+          letterSpacing: "2%",
+          marginTop: "50px"
         }}>
           MemberSHPE/T-Shirt Dues ($20/ <br />academic year)
           <br />
@@ -130,8 +127,8 @@ export function JoinSecton() {
           fontFamily: "Work Sans, sans-serif",
           fontSize: "36px",
           fontWeight: "200",
-          letterSpacing: "0.6px",
-          marginTop: "10px"
+          letterSpacing: "2%",
+          marginTop: "50px"
         }}>
           Benefits Include:
         </p>
@@ -141,32 +138,30 @@ export function JoinSecton() {
           fontFamily: "Work Sans, sans-serif",
           fontSize: "36px",
           fontWeight: "200",
-          letterSpacing: "0.5px",
-          paddingLeft: 20,
-          marginTop: "6px",
-          lineHeight: 1.35
+          letterSpacing: "2%",
+          paddingLeft: 20
         }}>
-          <ul className="list-disc pl-7 space-y-1">
+          <ul className="list-disc pl-10 space-y-2.5">
             <li> An opportunity to join our Slack
-              <ul className="list-disc pl-7">
+              <ul className="list-disc pl-20">
                 <li>Our messaging platform where announcements are first made and opportunities are shared with our members!</li>
               </ul>
             </li>
             <li>Eligibility for MemberSHPE Awards
-              <ul className="list-disc pl-7">
-                <li>Around $10,000 is awarded every year</li>
+              <ul className="list-disc pl-20 ">
+                <li>Around $10,000 is awarded every year​</li>
               </ul>
             </li>
             <li>Internship/Co-Op Database</li>
             <li> Professional Development
-              <ul className="list-disc pl-7">
-                <li>Including but not limited to resume critiques, mock interviews, and networking events</li>
+              <ul className="list-disc pl-20">
+                <li>Including but not limited to resume critiques, mock interviews, and networking events​</li>
               </ul>
             </li>
             <li>MentorSHPE Program</li>
             <li> Resume Book
-              <ul className="list-disc pl-7">
-                <li>You'll have the opportunity to give us your resume to be shared with our corporate sponsors</li>
+              <ul className="list-disc pl-20">
+                <li>You'll have the opportunity to give us your resume to be shared with our corporate sponsors​</li>
               </ul>
             </li>
             <li>SHPE Graduation Stole</li>
@@ -178,10 +173,10 @@ export function JoinSecton() {
           backgroundColor: "white",
           color: "#1A2858",
           fontWeight: 600,
-          fontSize: "36px",
-          letterSpacing: "0px",
-          padding: "14px 26px",
-          marginTop: "14px",
+          fontSize: "40px",
+          letterSpacing: "-2%",
+          padding: "30px 70px",
+          marginTop: "150px",
           alignSelf: "center"
         }}>
           Join Now
@@ -191,15 +186,14 @@ export function JoinSecton() {
       <div className="relative w-full"> {/*third image */}
         <img src={auditorium} alt="auditorium" className="block w-full h-auto" />
         <div className="absolute inset-0" style={ImageStyle()} />
-        <div className="absolute top-0 bottom-0 left-0 w-[62%] z-10 flex flex-col items-start justify-start px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto"> {/* text box for last image */}
+        <div className="absolute top-0 bottom-0 left-0 w-[63%] z-10 flex flex-col items-start justify-start pl-60 pt-30 pr-50"> {/* text box for last image */}
           <p style={{
             color: "#FD652F",
             fontFamily: "Work Sans, sans-serif",
-            fontSize: "36px",
+            fontSize: "45px",
             fontWeight: "700",
-            letterSpacing: "0.8px",
-            lineHeight: 1.25,
-            marginTop: "8px"
+            letterSpacing: "2%",
+            marginTop: "10px"
           }}>
             National Membershpe ($10/year)
           </p>
@@ -209,8 +203,8 @@ export function JoinSecton() {
             fontFamily: "Work Sans, sans-serif",
             fontSize: "36px",
             fontWeight: "200",
-            letterSpacing: "0.6px",
-            marginTop: "10px"
+            letterSpacing: "2%",
+            marginTop: "50px"
           }}>
             Benefits Include:
           </p>
@@ -220,32 +214,30 @@ export function JoinSecton() {
             fontFamily: "Work Sans, sans-serif",
             fontSize: "36px",
             fontWeight: "200",
-            letterSpacing: "0.5px",
-            paddingLeft: 20,
-            marginTop: "6px",
-            lineHeight: 1.35
+            letterSpacing: "2%",
+            paddingLeft: 20
           }}>
-            <ul className="list-disc pl-7 space-y-1">
+            <ul className="list-disc pl-10 space-y-2.5">
               <li> An opportunity to join our Slack
-                <ul className="list-disc pl-7">
+                <ul className="list-disc pl-20">
                   <li>Our messaging platform where announcements are first made and opportunities are shared with our members!</li>
                 </ul>
               </li>
               <li>Eligibility for MemberSHPE Awards
-                <ul className="list-disc pl-7">
-                  <li>Around $10,000 is awarded every year</li>
+                <ul className="list-disc pl-20 ">
+                  <li>Around $10,000 is awarded every year​</li>
                 </ul>
               </li>
               <li>Internship/Co-Op Database</li>
               <li> Professional Development
-                <ul className="list-disc pl-7">
-                  <li>Including but not limited to resume critiques, mock interviews, and networking events</li>
+                <ul className="list-disc pl-20">
+                  <li>Including but not limited to resume critiques, mock interviews, and networking events​</li>
                 </ul>
               </li>
               <li>MentorSHPE Program</li>
               <li> Resume Book
-                <ul className="list-disc pl-7">
-                  <li>You'll have the opportunity to give us your resume to be shared with our corporate sponsors</li>
+                <ul className="list-disc pl-20">
+                  <li>You'll have the opportunity to give us your resume to be shared with our corporate sponsors​</li>
                 </ul>
               </li>
               <li>SHPE Graduation Stole</li>
@@ -257,10 +249,10 @@ export function JoinSecton() {
             backgroundColor: "white",
             color: "#1A2858",
             fontWeight: 600,
-            fontSize: "36px",
-            letterSpacing: "0px",
-            padding: "14px 24px",
-            marginTop: "14px",
+            fontSize: "40px",
+            letterSpacing: "-2%",
+            padding: "30px 60px",
+            marginTop: "150px",
             alignSelf: "center"
           }}>
             National MemberSHPE
@@ -274,7 +266,7 @@ export function JoinSecton() {
 
 export function Points() {
   return (
-    <div className="min-h-screen w-full flex flex-col justify-evenly items-center px-6 py-12">
+    <div className="min-h-screen w-full flex flex-col justify-evenly items-center">
       <h1
         style={{
           backgroundImage: `linear-gradient(rgba(211,58,2,0.95), rgba(211,58,2,0.95)), url(${shpeSpirit})`,
@@ -286,14 +278,14 @@ export function Points() {
           color: "transparent",
           WebkitTextFillColor: "transparent",
         }}
-        className="text-[clamp(2.25rem,7vw,5rem)] font-bold py-5 text-center"
+        className="text-8xl font-bold py-5 "
       >
         The Point System
       </h1>
 
-      <div className="max-w-5xl">
+      <div>
         <p
-          className="text-center text-[clamp(1rem,2.2vw,1.8rem)] leading-relaxed"
+          className="text-center text-3xl"
           style={{
             fontFamily: "Work Sans sans-serif",
             fontStyle: "normal",
