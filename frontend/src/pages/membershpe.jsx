@@ -88,25 +88,95 @@ export function JoinSecton() {
   return (
     <div className="relative">
       {/* da 3 images*/}
-      <div className="relative w-full">
+      <div className="relative w-full"> {/*first image */}
         <img src={shpeSpirit} alt="shpe spirit" className="block w-full h-auto" />
         <div className="absolute inset-0" style={ImageStyle()} />
       </div>
-      <div className="relative w-full">
+      <div className="relative w-full"> {/*second image */}
         <img src={lonestarShowdown} alt="lonestar" className="block w-full h-auto" />
         <div className="absolute inset-0" style={ImageStyle()} />
       </div>
-      <div className="relative w-full">
+
+      {/* text box for first two images */}
+      <div className="absolute top-0 bottom-0 left-0 w-[63%] z-10 flex flex-col items-start justify-start pl-60 pt-30">
+        <h1 style={{
+          color: "white",
+          fontFamily: "Work Sans, sans-serif",
+          fontSize: "170px",
+          fontWeight: 600,
+          letterSpacing: "2%",
+          textAlign: "left"
+        }}>
+          Why Join SHPE?
+        </h1>
+        <p style={{
+          color: "#FD652F",
+          fontFamily: "Work Sans, sans-serif",
+          fontSize: "45px",
+          fontWeight: "700",
+          letterSpacing: "2%"
+        }}>
+          MemberSHPE/T-Shirt Dues ($20/ <br />academic year)
+          <br />
+        </p>
+        <p style={{
+          color: "white",
+          fontFamily: "Work Sans, sans-serif",
+          fontSize: "36px",
+          fontWeight: "400",
+          letterSpacing: "2%"
+        }}>
+          Benefits Include:
+
+          <ul className="list-disc pl-5">
+            <li> An opportunity to join our Slack
+              <ul className="list-disc pl-5">
+                <li>Our messaging platform where announcements are first made and opportunities are shared with our members!</li>
+              </ul>
+            </li>
+            <li>Eligibility for MemberSHPE Awards
+              <ul className="list-disc pl-5">
+                <li>Around $10,000 is awarded every year​</li>
+              </ul>
+            </li>
+            <li>Internship/Co-Op Database</li>
+            <li> Professional Development
+              <ul className="list-disc pl-5">
+                <li>Including but not limited to resume critiques, mock interviews, and networking events​</li>
+              </ul>
+            </li>
+            <li>MentorSHPE Program</li>
+            <li> Resume Book
+              <ul className="list-disc pl-5">
+                <li>You'll have the opportunity to give us your resume to be shared with our corporate sponsors​</li>
+              </ul>
+            </li>
+            <li>SHPE Graduation Stole</li>
+            <li>Chapter Shirt</li>
+          </ul>
+        </p>
+        
+        <button style={{
+          backgroundColor: "white",
+          color: "#1A2858",
+          fontWeight: 600,
+          fontSize: "40px",
+          letterSpacing: "-2%",
+          padding: "24px 60px",
+          marginTop: "50px"
+        }}>
+          Join Now
+        </button>
+      </div>
+
+      <div className="relative w-full"> {/*third image */}
         <img src={auditorium} alt="auditorium" className="block w-full h-auto" />
         <div className="absolute inset-0" style={ImageStyle()} />
+        <div className="absolute inset-0 z-10 flex items-center justify-center w-[63%]"> {/* text box for last image */}
+          <p className="text-white text-xl">enter text</p>
+        </div>
       </div>
-      {/* text box over da 3 images*/}
-      <div className="absolute inset-0 z-10 flex items-center justify-center w-[63%]">
-        <p className="text-white text-xl">
-          Why Join SHPE?
-        </p>
-      </div>
-    </div>
+    </div >
   );
 }
 
