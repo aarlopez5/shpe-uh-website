@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import shpeHoriztonalLogo from "../assets/logos/shpeHorizontalLogo.png"
 
@@ -34,6 +35,13 @@ function NavItem({ to, children }) {
 }
 
 export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   return (
     <header className="header">
       <div className="headerRow">
@@ -43,6 +51,17 @@ export default function Header() {
           </div>
         </div>
 
+        <button
+          type="button"
+          className="mobileMenuBtn"
+          aria-label="Toggle navigation menu"
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-nav-panel"
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+        >
+          Menu
+        </button>
+
         <nav className="nav">
           {links.map((l) => (
             <NavItem key={l.to} to={l.to}>
@@ -51,6 +70,23 @@ export default function Header() {
           ))}
         </nav>
       </div>
+
+      <nav
+        id="mobile-nav-panel"
+        className={`mobileNavPanel ${isMobileMenuOpen ? "open" : ""}`}
+      >
+        <div className="mobileNavGrid">
+          {links.map((l) => (
+            <NavLink key={l.to} to={l.to} className="mobileNavLink">
+              {({ isActive }) => (
+                <span className={`mobileNavLinkInner ${isActive ? "active" : ""}`}>
+                  {l.label}
+                </span>
+              )}
+            </NavLink>
+          ))}
+        </div>
+      </nav>
     </header>
   );
 }
