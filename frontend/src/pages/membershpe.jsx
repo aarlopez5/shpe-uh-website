@@ -98,72 +98,86 @@ export function JoinSecton() {
       </div>
 
       {/* text box for first two images */}
-      <div className="absolute top-0 bottom-0 left-0 w-[63%] z-10 flex flex-col items-start justify-start pl-60 pt-30">
+      <div className="absolute top-0 bottom-0 left-0 w-[63%] z-10 flex flex-col items-start justify-start pl-60 pt-30 pr-50">
         <h1 style={{
           color: "white",
           fontFamily: "Work Sans, sans-serif",
-          fontSize: "170px",
+          fontSize: "150px",
           fontWeight: 600,
-          letterSpacing: "2%",
+          letterSpacing: "3%",
           textAlign: "left"
         }}>
           Why Join SHPE?
         </h1>
+
         <p style={{
           color: "#FD652F",
           fontFamily: "Work Sans, sans-serif",
           fontSize: "45px",
           fontWeight: "700",
-          letterSpacing: "2%"
+          letterSpacing: "2%",
+          marginTop: "50px"
         }}>
           MemberSHPE/T-Shirt Dues ($20/ <br />academic year)
           <br />
         </p>
+
         <p style={{
           color: "white",
           fontFamily: "Work Sans, sans-serif",
           fontSize: "36px",
-          fontWeight: "400",
-          letterSpacing: "2%"
+          fontWeight: "200",
+          letterSpacing: "2%",
+          marginTop: "50px"
         }}>
           Benefits Include:
+        </p>
 
-          <ul className="list-disc pl-5">
+        <div style={{
+          color: "white",
+          fontFamily: "Work Sans, sans-serif",
+          fontSize: "36px",
+          fontWeight: "200",
+          letterSpacing: "2%",
+          paddingLeft: 20
+        }}>
+          <ul className="list-disc pl-10 space-y-2.5">
             <li> An opportunity to join our Slack
-              <ul className="list-disc pl-5">
+              <ul className="list-disc pl-20">
                 <li>Our messaging platform where announcements are first made and opportunities are shared with our members!</li>
               </ul>
             </li>
             <li>Eligibility for MemberSHPE Awards
-              <ul className="list-disc pl-5">
+              <ul className="list-disc pl-20 ">
                 <li>Around $10,000 is awarded every year​</li>
               </ul>
             </li>
             <li>Internship/Co-Op Database</li>
             <li> Professional Development
-              <ul className="list-disc pl-5">
+              <ul className="list-disc pl-20">
                 <li>Including but not limited to resume critiques, mock interviews, and networking events​</li>
               </ul>
             </li>
             <li>MentorSHPE Program</li>
             <li> Resume Book
-              <ul className="list-disc pl-5">
+              <ul className="list-disc pl-20">
                 <li>You'll have the opportunity to give us your resume to be shared with our corporate sponsors​</li>
               </ul>
             </li>
             <li>SHPE Graduation Stole</li>
             <li>Chapter Shirt</li>
           </ul>
-        </p>
-        
+        </div>
+
         <button style={{
           backgroundColor: "white",
           color: "#1A2858",
           fontWeight: 600,
           fontSize: "40px",
           letterSpacing: "-2%",
-          padding: "24px 60px",
-          marginTop: "50px"
+          padding: "30px 70px",
+          marginTop: "150px",
+          alignSelf: "center"
         }}>
           Join Now
         </button>
