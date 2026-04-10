@@ -99,7 +99,7 @@ export function JoinSecton() {
       </div>
 
       {/* text box for first two images */}
-      <div className="absolute top-0 bottom-0 left-0 w-[62%] z-10 flex flex-col items-start justify-start px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto">
+      <div className="absolute top-0 bottom-0 left-0 w-[60%] z-10 flex flex-col items-start justify-start px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto">
         <h1 style={{
           color: "white",
           fontFamily: "Work Sans, sans-serif",
