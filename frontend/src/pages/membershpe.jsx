@@ -212,7 +212,22 @@ export function JoinSecton() {
             letterSpacing: "0.6px",
             marginTop: "10px"
           }}>
-            Benefits Include:
+            National membership makes you an official member under SHPE National, giving you access to various resources, scholarships, and the ability to attend various conferences such as RLDC (Regional Leadership Development Conference) as well as National Convention.
+            <br />
+            To become a nationally paid member of SHPE click the button below.
+            <br />
+            
+          </p>
+
+          <p style={{
+            color: "white",
+            fontFamily: "Work Sans, sans-serif",
+            fontSize: "36px",
+            fontWeight: "200",
+            letterSpacing: "0.6px",
+            marginTop: "10px"
+          }}>
+            You will be asked a few questions pertaining to the chapter:
           </p>
 
           <div style={{
@@ -226,31 +241,10 @@ export function JoinSecton() {
             lineHeight: 1.35
           }}>
             <ul className="list-disc pl-7 space-y-1">
-              <li> An opportunity to join our Slack
-                <ul className="list-disc pl-7">
-                  <li>Our messaging platform where announcements are first made and opportunities are shared with our members!</li>
-                </ul>
-              </li>
-              <li>Eligibility for MemberSHPE Awards
-                <ul className="list-disc pl-7">
-                  <li>Around $10,000 is awarded every year</li>
-                </ul>
-              </li>
-              <li>Internship/Co-Op Database</li>
-              <li> Professional Development
-                <ul className="list-disc pl-7">
-                  <li>Including but not limited to resume critiques, mock interviews, and networking events</li>
-                </ul>
-              </li>
-              <li>MentorSHPE Program</li>
-              <li> Resume Book
-                <ul className="list-disc pl-7">
-                  <li>You'll have the opportunity to give us your resume to be shared with our corporate sponsors</li>
-                </ul>
-              </li>
-              <li>SHPE Graduation Stole</li>
-              <li>Chapter Shirt</li>
+              <li>Region: 5</li>
+              <li>Chapter Affiliation: University of Houston Student Chapter</li>
             </ul>
+            
           </div>
 
           <button style={{
