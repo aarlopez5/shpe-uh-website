@@ -200,12 +200,14 @@ export function VisionSection() {
 /* E-BOARD */
 
 const boardMembers = [
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' }
+  { name: 'Abigail Lopez', position: 'President' },
+  { name: 'Sean Laguna', position: 'Vice President Internal' },
+  { name: 'Daniel Lopez', position: 'Vice President External' },
+  { name: 'Carlos Alba', position: 'Treasurer' },
+  { name: 'Gabriela Lorenzo', position: 'Secretary' },
+  { name: 'Gizelle Flores', position: 'Communications Director' },
+  { name: 'Abel Aguirre', position: 'Regional Representative' }, 
+  { name: 'Ivan Sanchez', position: 'Directior of Internal Affairs'}
 ];
 
 export function EBoardSection() {
