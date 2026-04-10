@@ -293,12 +293,9 @@ export function Points() {
 
       <div className="max-w-5xl">
         <p
-          className="text-center text-[clamp(1rem,2.2vw,1.8rem)] leading-relaxed"
+          className="text-center text-[clamp(1rem,2.2vw,1.8rem)]"
           style={{
-            fontFamily: "Work Sans sans-serif",
-            fontStyle: "normal",
-            fontWeight: 400,
-            letterSpacing: "0.5px"
+            fontFamily: "Work Sans sans-serif"
           }}
         >
           How to earn points...<br />+4 Assist Outreach events <br />+3 General Meeting Sign In<br />+2 General Meeting Sign Out<br />+3 Assist Professional events <br />+2 Assist Off-Campus events <br />+3 Assist SRT/Social events <br />+1 Assist SHPEresenting Thursday<br />+2 Bringing a new member<br />+2 Wearing SHPE shirt for General Meeting<br />+1 Submit Pictures!<br />+2 Assist committee meeting<br />+2 Committee Sign In (Events)<br />+4 Elections/vote<br /><br />The top 5 most active members are awarded at each General meeting!
