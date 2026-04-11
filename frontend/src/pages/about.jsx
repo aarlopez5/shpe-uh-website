@@ -4,6 +4,14 @@ import { useRef } from 'react';
 import { useInView } from 'framer-motion';
 import shpeSpirit from '../assets/images/SHPESpiritWeb.png';
 import pillarImg from '../assets/images/pillar.png'
+import Abigail from '../assets/images/Eboard_Photos/Abigail.png'
+import Sean from '../assets/images/Eboard_Photos/Sean.JPG'
+import Daniel from '../assets/images/Eboard_Photos/Daniel.JPG'
+import Carlos from '../assets/images/Eboard_Photos/Carlos.JPG'
+import Gabriela from '../assets/images/Eboard_Photos/Gaby.JPG'
+import Gigi from '../assets/images/Eboard_Photos/Gigi.JPG'
+import Abel from '../assets/images/Eboard_Photos/Abel.JPG'
+import Ivan from '../assets/images/Eboard_Photos/Ivan.JPG'
 
 export function ScrollTransitionHero() {
   const containerRef = useRef(null);
@@ -200,12 +208,14 @@ export function VisionSection() {
 /* E-BOARD */
 
 const boardMembers = [
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' },
-  { name: 'Name Lastname', position: 'Position' }
+  { name: 'Abigail Lopez', position: 'President' ,img: Abigail},
+  { name: 'Sean Laguna', position: 'Vice President Internal' ,img: Sean},
+  { name: 'Daniel Lopez', position: 'Vice President External' ,img: Daniel},
+  { name: 'Carlos Alba', position: 'Treasurer' ,img: Carlos},
+  { name: 'Gabriela Lorenzo', position: 'Secretary' ,img: Gabriela},
+  { name: 'Gizelle Flores', position: 'Communications Director' ,img: Gigi},
+  { name: 'Abel Aguirre', position: 'Regional Representative' ,img: Abel}, 
+  { name: 'Ivan Sanchez', position: 'Directior of Internal Affairs',img: Ivan}
 ];
 
 export function EBoardSection() {
@@ -221,7 +231,7 @@ export function EBoardSection() {
             <div key={index} className="flex flex-col items-center">
               <div className="relative w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-[#c2410c]">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+                  src={member.img}
                   alt={member.name}
                   className="w-full h-full object-cover"
                 />
