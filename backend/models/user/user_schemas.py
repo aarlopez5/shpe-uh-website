@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field
 from pydantic import EmailStr, model_validator
-from user_enums import Role, Classification, Colleges, COTMajors, ExpGradDate, EngineerMajors, Gender, GPA, Industry, MembershipStatus, NSMMajors, ProfDev, RaceEthnicity, ShirtSize
+from .user_enums import Role, Classification, Colleges, COTMajors, ExpGradDate, EngineerMajors, Gender, GPA, Industry, MembershipStatus, NSMMajors, ProfDev, RaceEthnicity, ShirtSize
 
 class UserBase(SQLModel):
     first_name: str

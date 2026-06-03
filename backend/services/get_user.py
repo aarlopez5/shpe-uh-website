@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from models.user import User
+from backend.models.user.user import User
 
 def get_user_by_email(session: Session, email: str) -> User | None:
     statement = select(User).where(User.email == email)

@@ -175,3 +175,4 @@ class COTMajors(str, Enum):
     foresight = "Foresight"
     global_retailing = "Global Retailing"
     cybersecurity = "Cybersecurity"
+    

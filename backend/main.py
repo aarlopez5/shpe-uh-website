@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from typing import Annotated
 from fastapi.security import OAuth2PasswordRequestForm
 
-from models.user import User, UserOut, UserCreate
+from backend.models.user.user import User, UserOut, UserCreate
 from database import create_db
 from security.jwt import Token, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
 from security.hashing import get_password_hash
