@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field
 from pydantic import EmailStr, model_validator
-from .user_enums import Role, Classification, Colleges, COTMajors, ExpGradDate, EngineerMajors, Gender, GPA, Industry, MembershipStatus, NSMMajors, ProfDev, RaceEthnicity, ShirtSize
+from .user_enums import Industry, ProfDev, RaceEthnicity, Role, Classification, Colleges, COTMajors, ExpGradDate, EngineerMajors, Gender, GPA, MembershipStatus, NSMMajors, ShirtSize
 
 class UserBase(SQLModel):
     first_name: str
@@ -17,8 +17,6 @@ class UserBase(SQLModel):
     birthday: str | None = None
     
     gender: Gender
-    race_and_ethnicity: RaceEthnicity
-    country_origin: str | None = None
     first_gen: bool
     
     college: Colleges
@@ -26,10 +24,7 @@ class UserBase(SQLModel):
     classification: Classification
     gpa: GPA | None = None
     exp_grad_date: ExpGradDate
-    
-    prof_dev: ProfDev
-    industries: Industry
-    
+        
     in_slack: bool
     is_returning: MembershipStatus
     is_national_member: bool
@@ -51,8 +46,14 @@ class UserBase(SQLModel):
             raise ValueError("major doesn't match selected college")
         return self
 
-class UserCreate(UserBase):
+class UserMultiSelectedFields(SQLModel):
+    country_origin: list[str]
+    interested_industries: list[Industry]
+    prof_dev: list[ProfDev]
+    race_and_ethnicity: list[RaceEthnicity]
+
+class UserCreate(UserBase, UserMultiSelectedFields):
     password: str
 
-class UserOut(UserBase):
+class UserOut(UserBase, UserMultiSelectedFields):
     id: int
