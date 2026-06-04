@@ -5,3 +5,4 @@ class UserRaceEthnicity(UserMultiSelectBase, table=True):
     __tablename__ = "user_race_ethnicity"
     
     race_and_ethnicity: RaceEthnicity
+    

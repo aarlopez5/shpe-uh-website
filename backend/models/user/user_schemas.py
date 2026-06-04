@@ -1,5 +1,6 @@
 from sqlmodel import SQLModel, Field
 from pydantic import EmailStr, model_validator
+from datetime import date
 from .user_enums import Industry, ProfDev, RaceEthnicity, Role, Classification, Colleges, COTMajors, ExpGradDate, EngineerMajors, Gender, GPA, MembershipStatus, NSMMajors, ShirtSize
 
 class UserBase(SQLModel):
@@ -14,7 +15,7 @@ class UserBase(SQLModel):
     
     phone_num: str
     psid: str
-    birthday: str | None = None
+    birthday: date | None = None
     
     gender: Gender
     first_gen: bool
@@ -33,17 +34,21 @@ class UserBase(SQLModel):
 
     @model_validator(mode="after")
     def check_major_matches_college(self):
+        
         valid = {
             Colleges.engineering: EngineerMajors,
             Colleges.nsm: NSMMajors,
             Colleges.cot: COTMajors,
         }.get(self.college)
+        
         if valid is None:
             # "Other" college: major is free-text, must be a non-empty string
             if not self.major.strip():
                 raise ValueError("major is required for the selected college")
+            
         elif self.major not in (m.value for m in valid):
             raise ValueError("major doesn't match selected college")
+        
         return self
 
 class UserMultiSelectedFields(SQLModel):
