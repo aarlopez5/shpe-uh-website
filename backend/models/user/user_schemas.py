@@ -62,3 +62,4 @@ class UserCreate(UserBase, UserMultiSelectedFields):
 
 class UserOut(UserBase, UserMultiSelectedFields):
     id: int
+    

@@ -5,7 +5,6 @@ from datetime import date
 from models.user.user_schemas import UserCreate
 from models.user.user_enums import *
 
-
 def create_valid_user(**overides):
     data = {
         "first_name": "John",
@@ -92,3 +91,4 @@ def test_create_user_allows_custom_major():
     
     assert user.college == Colleges.other
     assert user.major == "Graphic Design"
+
