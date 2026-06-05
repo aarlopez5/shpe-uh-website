@@ -13,8 +13,8 @@ from models.user.multi_selections.user_interested_industries import UserInterest
 from models.user.multi_selections.user_country_origin import UserCountryOrigin
 from database import create_db
 from security.jwt import Token, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
-from security.hashing import get_password_hash
 from services.auth_user import authenticate_user
+from services.create_user import create_user
 from services.dependencies import get_current_user, SessionDependencies
 from services.get_user import get_user_by_email
 from validators.email import normalize_email
@@ -80,22 +80,8 @@ async def signup(user_in: UserCreate, session: SessionDependencies):
             detail="Email is already registered"
         )
 
-    multi_select_fields = {"password", "country_origin", "interested_industries", "prof_dev", "race_and_ethnicity"}
-    user_db = User(**user_in.model_dump(exclude=multi_select_fields), hashed_password=get_password_hash(user_in.password))
 
-    session.add(user_db)
-    session.commit()
-    session.refresh(user_db)
-
-    for value in user_in.race_and_ethnicity:
-        session.add(UserRaceEthnicity(user_id=user_db.id, race_and_ethnicity=value))
-    for value in user_in.prof_dev:
-        session.add(UserProfDev(user_id=user_db.id, prof_dev=value))
-    for value in user_in.interested_industries:
-        session.add(UserInterestedIndustries(user_id=user_db.id, interested_industry=value))
-    for value in user_in.country_origin:
-        session.add(UserCountryOrigin(user_id=user_db.id, country_origin=value))
-    session.commit()
+    user_db = create_user(session, user_in)
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": user_db.cougarnet_email}, expires_delta=access_token_expires)

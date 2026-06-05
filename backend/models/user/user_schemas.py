@@ -48,16 +48,21 @@ class UserBase(SQLModel):
     @field_validator("cougarnet_email", mode="before")
     @classmethod
     def validate_cougarnet_email(cls, v: str) -> str:
-        if not str(v).lower().endswith("@cougarnet.uh.edu"):
+        v = str(v).lower()
+        
+        if not v.endswith("@cougarnet.uh.edu"):
             raise ValueError("CougarNet email must end with @cougarnet.uh.edu.")
+        
         return v
 
     @field_validator("personal_email", mode="before")
     @classmethod
     def validate_personal_email(cls, v: str) -> str:
-        lower = str(v).lower()
-        if lower.endswith("@cougarnet.uh.edu") or lower.endswith("@uh.edu"):
+        v = str(v).lower()
+        
+        if v.endswith("@cougarnet.uh.edu") or v.endswith("@uh.edu"):
             raise ValueError("Personal email cannot be a CougarNet or UH email address.")
+        
         return v
 
     @field_validator("psid", mode="before")

@@ -1,0 +1,30 @@
+from sqlmodel import Session
+
+from models.user.multi_selections.user_country_origin import UserCountryOrigin
+from models.user.multi_selections.user_interested_industries import UserInterestedIndustries
+from models.user.multi_selections.user_prof_dev import UserProfDev
+from models.user.multi_selections.user_race_ethnicity import UserRaceEthnicity
+from models.user.user_schemas import UserCreate
+from models.user.user import User
+from security.hashing import get_password_hash
+
+def create_user(session: Session, user_data: UserCreate):
+    excluded_fields = {"password", "country_origin", "interested_industries", "prof_dev", "race_and_ethnicity"}
+    user_db = User(**user_data.model_dump(exclude=excluded_fields), hashed_password=get_password_hash(user_data.password))
+
+    session.add(user_db)
+    session.commit()
+    session.refresh(user_db)
+
+    for value in user_data.race_and_ethnicity:
+        session.add(UserRaceEthnicity(user_id=user_db.id, race_and_ethnicity=value))
+    for value in user_data.prof_dev:
+        session.add(UserProfDev(user_id=user_db.id, prof_dev=value))
+    for value in user_data.interested_industries:
+        session.add(UserInterestedIndustries(user_id=user_db.id, interested_industry=value))
+    for value in user_data.country_origin:
+        session.add(UserCountryOrigin(user_id=user_db.id, country_origin=value))
+        
+    session.commit()
+    
+    return user_db
