@@ -108,26 +108,13 @@ class UserMultiSelectedFields(SQLModel):
     interested_industries: list[Industry]
     prof_dev: list[ProfDev]
     race_and_ethnicity: list[RaceEthnicity]
-    
-    @model_validator(mode="after")
-    def check_required_multiselect_fields(self):
-        if not self.country_origin:
-            raise ValueError("requires one or more countries of origin")
-        
-        if not self.interested_industries:
-            raise ValueError("requires one or more interested industries")
-        
-        if not self.prof_dev:
-            raise ValueError("requires one professional development interests")
-        
-        if not self.race_and_ethnicity:
-            raise ValueError("requires at least one race/ethnicity option to be chosen")
-        
-        return self
 
     @field_validator("country_origin", mode="before")
     @classmethod
     def sanitize_countries(cls, v: list) -> list:
+        if not v:
+            raise ValueError("Please enter one country of origin")
+        
         cleaned = []
         for item in v:
             s = str(item).strip()[:100]
