@@ -1,8 +1,7 @@
 from sqlmodel import Session, select
-from backend.models.user.user import User
+from models.user.user import User
 
 def get_user_by_email(session: Session, email: str) -> User | None:
-    statement = select(User).where(User.email == email)
+    statement = select(User).where(User.cougarnet_email == email)
     user = session.exec(statement).first()
     return user
-    

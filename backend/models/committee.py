@@ -1,5 +1,13 @@
 from sqlmodel import SQLModel, Field
 
+
+class CommitteeOut(SQLModel):
+    id: int
+    name: str
+    description: str
+    is_member: bool
+
+
 class Committee(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     name: str

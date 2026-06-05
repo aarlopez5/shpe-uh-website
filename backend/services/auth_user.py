@@ -1,6 +1,6 @@
 from sqlmodel import Session
 
-from backend.models.user.user import User
+from models.user.user import User
 from security.hashing import verify_password
 from .get_user import get_user_by_email
 

@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import PrivateRoute from './components/PrivateRoute';
 
 import Home from './pages/home';
 import About from './pages/about';
@@ -8,6 +9,10 @@ import GetInvolved from './pages/get-involved';
 import MemberSHPE from './pages/membershpe';
 import Sponsors from './pages/sponsors';
 import Gallery from './pages/gallery';
+import SignIn from './pages/signin';
+import SignUp from './pages/signup';
+import Dashboard from './pages/dashboard';
+import Committees from './pages/committees';
 
 export default function App() {
 	return (
@@ -21,6 +26,24 @@ export default function App() {
 					<Route path="/membershpe" element={<MemberSHPE />} />
 					<Route path="/sponsors" element={<Sponsors />} />
 					<Route path="/gallery" element={<Gallery />} />
+					<Route path="/signin" element={<SignIn />} />
+					<Route path="/signup" element={<SignUp />} />
+					<Route
+						path="/dashboard"
+						element={
+							<PrivateRoute>
+								<Dashboard />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/committees"
+						element={
+							<PrivateRoute>
+								<Committees />
+							</PrivateRoute>
+						}
+					/>
 					{/* Redirect old /pages/ routes */}
 					<Route
 						path="/pages/about"
