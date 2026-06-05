@@ -27,3 +27,5 @@ Thumbs.db
 .idea/
 
 *.db
+
+.claude/settings.local.json
