@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"systemMessage\": \"CLAUDE.md reminder: Did you update CLAUDE.md with any new lessons, patterns, or gotchas from this session?\"}'"
+          }
+        ]
+      }
+    ]
+  }
+}
