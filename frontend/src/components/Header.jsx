@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import shpeHoriztonalLogo from "../assets/logos/shpeHorizontalLogo.png"
+import shpeHoriztonalLogo from "../assets/logos/shpeHorizontalLogo.png";
+import { useAuth } from "../context/AuthContext";
 
 const links = [
   { label: "Home", to: "/" },
@@ -18,15 +19,15 @@ function NavItem({ to, children }) {
       {({ isActive }) => (
         <span className={`navLinkInner ${isActive ? "active" : ""}`}>
           {children}
-          { isActive &&
-            (<motion.span
+          {isActive && (
+            <motion.span
               className="underline"
               layoutId="nav-underline"
               initial={false}
               animate={{ opacity: isActive ? 1 : 0 }}
               transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            />)
-          }
+            />
+          )}
         </span>
       )}
     </NavLink>
@@ -36,16 +37,23 @@ function NavItem({ to, children }) {
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  function handleSignOut() {
+    logout();
+    navigate("/");
+  }
+
   return (
     <header className="header">
       <div className="headerRow">
         <div className="brand">
-          <div className="brandMark" >
+          <div className="brandMark">
             <img src={shpeHoriztonalLogo} alt="SHPE LOGO" />
           </div>
         </div>
@@ -67,6 +75,30 @@ export default function Header() {
               {l.label}
             </NavItem>
           ))}
+          {user && (
+            <>
+              <NavItem to="/dashboard">Dashboard</NavItem>
+              <NavItem to="/committees">Committees</NavItem>
+            </>
+          )}
+          {user ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginLeft: "8px" }}>
+              <span style={{ fontWeight: 600, color: "var(--blue)", fontSize: "14px" }}>
+                Hi, {user.first_name}
+              </span>
+              <button className="ghostBtn" onClick={handleSignOut} style={{ fontSize: "14px", padding: "6px 14px" }}>
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <button
+              className="primaryBtn"
+              onClick={() => navigate("/signin")}
+              style={{ marginLeft: "8px", fontSize: "14px", padding: "6px 16px" }}
+            >
+              Sign In
+            </button>
+          )}
         </nav>
       </div>
 
@@ -84,6 +116,37 @@ export default function Header() {
               )}
             </NavLink>
           ))}
+          {user && (
+            <>
+              <NavLink to="/dashboard" className="mobileNavLink">
+                {({ isActive }) => (
+                  <span className={`mobileNavLinkInner ${isActive ? "active" : ""}`}>Dashboard</span>
+                )}
+              </NavLink>
+              <NavLink to="/committees" className="mobileNavLink">
+                {({ isActive }) => (
+                  <span className={`mobileNavLinkInner ${isActive ? "active" : ""}`}>Committees</span>
+                )}
+              </NavLink>
+            </>
+          )}
+          {user ? (
+            <button
+              className="mobileNavLink"
+              onClick={handleSignOut}
+              style={{ textAlign: "left", background: "none", border: "none", cursor: "pointer", width: "100%" }}
+            >
+              <span className="mobileNavLinkInner">Sign Out</span>
+            </button>
+          ) : (
+            <NavLink to="/signin" className="mobileNavLink">
+              {({ isActive }) => (
+                <span className={`mobileNavLinkInner ${isActive ? "active" : ""}`}>
+                  Sign In
+                </span>
+              )}
+            </NavLink>
+          )}
         </div>
       </nav>
     </header>

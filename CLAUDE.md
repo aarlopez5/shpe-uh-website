@@ -23,13 +23,14 @@ shpe-uh-website/
   frontend/
     src/
       api/api.js          # Axios instance (baseURL from VITE_API_URL env var)
-      components/         # Header, Footer, GalleryApproved
-      pages/              # home, about, gallery, membershpe, sponsors, get-involved
+      components/         # Header, Footer, GalleryApproved, PrivateRoute
+      pages/              # home, about, gallery, membershpe, sponsors, get-involved, dashboard, committees
       App.jsx             # Routes
   backend/
-    main.py               # FastAPI app, routes: /login /signup /me
+    main.py               # FastAPI app, routes: /login /signup /me /events/upcoming /committees + join/leave
     database.py           # SQLite engine + session factory
-    models/               # SQLModel table definitions (user.py, committee.py)
+    seed.py               # Seeds committees and sample events — run once: python seed.py
+    models/               # SQLModel table definitions (user.py, committee.py, event.py)
     security/             # jwt.py (token creation), hashing.py (Argon2)
     services/             # auth_user.py, dependencies.py, get_user.py
     validators/           # email.py (normalize_email)
@@ -94,14 +95,36 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 - Do not use `React.useState` / `React.useEffect` — use named imports: `import { useState, useEffect } from 'react'`
 
 ## Pages & Routes
-| Path | Component |
-|------|-----------|
-| `/` | `pages/home.jsx` |
-| `/about` | `pages/about.jsx` |
-| `/membershpe` | `pages/membershpe.jsx` |
-| `/sponsors` | `pages/sponsors.jsx` |
-| `/gallery` | `pages/gallery.jsx` |
-| `/get-involved` | `pages/get-involved.jsx` (currently commented out) |
+| Path | Component | Auth required |
+|------|-----------|---------------|
+| `/` | `pages/home.jsx` | No |
+| `/about` | `pages/about.jsx` | No |
+| `/membershpe` | `pages/membershpe.jsx` | No |
+| `/sponsors` | `pages/sponsors.jsx` | No |
+| `/gallery` | `pages/gallery.jsx` | No |
+| `/get-involved` | `pages/get-involved.jsx` (commented out) | No |
+| `/dashboard` | `pages/dashboard.jsx` | Yes (PrivateRoute) |
+| `/committees` | `pages/committees.jsx` | Yes (PrivateRoute) |
+
+## Protected Routes
+`components/PrivateRoute.jsx` wraps any route that requires authentication. If `token` is null it redirects to `/signin` preserving the intended destination in `location.state.from`. After sign-in the user is forwarded to that destination (or `/dashboard` by default).
+
+## Backend API Endpoints
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| POST | `/login` | No | Returns JWT token |
+| POST | `/signup` | No | Creates user, returns JWT token |
+| GET | `/me` | Yes | Returns current user (includes `points`) |
+| GET | `/events/upcoming?days=7` | Yes | Upcoming events within N days |
+| GET | `/committees` | Yes | All committees with `is_member` flag |
+| POST | `/committees/{id}/join` | Yes | Join a committee |
+| DELETE | `/committees/{id}/leave` | Yes | Leave a committee |
+
+## SQLite / datetime note
+SQLite stores datetimes as plain text. Store and compare using naive UTC datetimes (`datetime.utcnow()`), not timezone-aware ones. The `Event.start_time` field uses naive UTC. On the frontend, append `'Z'` when constructing a `Date` object so the browser interprets it as UTC: `new Date(event.start_time + 'Z')`.
+
+## Authenticated API calls
+New API functions in `api/api.js` read the token from `localStorage` via the internal `authHeaders()` helper — do not pass the token as a parameter (that pattern is only used by the legacy `getMe(token)` function).
 
 ## Before Writing Code
 1. Check this file for existing patterns — follow them exactly
