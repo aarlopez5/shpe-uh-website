@@ -69,6 +69,33 @@ def test_creates_user_with_invalid_cougarnet_email():
         UserCreate(**valid_user_data(
             cougarnet_email="abc"
         ))
+        
+def test_create_user_capitalized_email_are_normalized_and_lowered():
+    user = UserCreate(**valid_user_data(
+        cougarnet_email="TEST@COUGARNET.UH.EDU",
+        personal_email="TEST@GMAIL.COM"
+    ))
+    
+    assert user.cougarnet_email == "test@cougarnet.uh.edu"
+    assert user.personal_email == "test@gmail.com"
+
+def test_create_user_raises_error_when_non_uh_email_is_passed_cougarnet_email_field():
+    with pytest.raises(ValidationError, match="CougarNet email must end with @cougarnet.uh.edu"):
+        UserCreate(**valid_user_data(
+            cougarnet_email="test@gmail.com"
+        ))
+
+def test_create_user_raises_error_when_cougarnet_email_is_passed_to_personal_email_field():
+    with pytest.raises(ValidationError, match="Personal email cannot be a CougarNet or UH email address."):
+        UserCreate(**valid_user_data(
+            personal_email="test@cougarnet.uh.edu"
+        ))
+        
+def test_create_user_raises_error_when_uh_email_is_passed_to_personal_email_field():
+    with pytest.raises(ValidationError, match="Personal email cannot be a CougarNet or UH email address."):
+        UserCreate(**valid_user_data(
+            personal_email="test@uh.edu"
+        ))
     
 def test_create_user_does_not_allow_engineering_student_to_have_nsm_major():
     with pytest.raises(ValidationError):
@@ -91,7 +118,6 @@ def test_create_user_allows_custom_major():
     
     assert user.college == Colleges.other
     assert user.major == "Graphic Design"
-
 
 def test_create_user_allows_multiple_countries():
     user = UserCreate(**valid_user_data(
@@ -127,5 +153,3 @@ def test_create_user_requires_one_race_and_ethnicity_option():
         UserCreate(**valid_user_data(
             race_and_ethnicity=[]
         ))
-        
-        
