@@ -53,7 +53,7 @@ async def signup(user_in: UserCreate, session: SessionDependencies):
             status_code=status.HTTP_409_CONFLICT,
             detail="Email is already registered"
         )
-    
+
     user_db = User(**user_in.model_dump(exclude={"password"}), hashed_password=get_password_hash(user_in.password))
 
     session.add(user_db)
@@ -64,3 +64,7 @@ async def signup(user_in: UserCreate, session: SessionDependencies):
     access_token = create_access_token(data={"sub": user_db.email}, expires_delta=access_token_expires)
 
     return Token(access_token=access_token, token_type="bearer")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
