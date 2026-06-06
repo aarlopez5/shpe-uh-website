@@ -43,3 +43,23 @@ export function joinCommittee(committeeId) {
 export function leaveCommittee(committeeId) {
   return api.delete(`/committees/${committeeId}/leave`, { headers: authHeaders() });
 }
+
+export function getCommitteeMembers(committeeId) {
+  return api.get(`/committees/${committeeId}/members`, { headers: authHeaders() });
+}
+
+export function getCommitteeMessages(committeeId) {
+  return api.get(`/committees/${committeeId}/messages`, { headers: authHeaders() });
+}
+
+export function sendCommitteeMessage(committeeId, body) {
+  return api.post(`/committees/${committeeId}/messages`, { body }, { headers: authHeaders() });
+}
+
+export function getNotifications() {
+  return api.get("/notifications", { headers: authHeaders() });
+}
+
+export function markNotificationRead(notificationId) {
+  return api.post(`/notifications/${notificationId}/read`, {}, { headers: authHeaders() });
+}

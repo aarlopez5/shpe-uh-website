@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { getUpcomingEvents } from '../api/api';
+import { getUpcomingEvents, getNotifications, markNotificationRead } from '../api/api';
 
 function PointsBadge({ points }) {
   return (
@@ -120,18 +121,79 @@ function EventCard({ event }) {
   );
 }
 
+function formatNotificationTime(str) {
+  const d = new Date(str + 'Z'); // stored UTC
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(d);
+}
+
+function NotificationItem({ notification, onRead }) {
+  const unread = !notification.is_read;
+  return (
+    <div
+      onClick={unread ? () => onRead(notification.id) : undefined}
+      style={{
+        border: '1px solid #e5e7eb',
+        borderLeft: unread ? '4px solid #0070C0' : '4px solid #e5e7eb',
+        borderRadius: '10px',
+        padding: '12px 16px',
+        background: unread ? '#eff6ff' : '#fff',
+        cursor: unread ? 'pointer' : 'default',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: '12px',
+      }}
+    >
+      <p style={{ margin: 0, fontSize: '14px', color: '#111827', fontWeight: unread ? 600 : 400 }}>
+        {notification.body}
+      </p>
+      <span style={{ fontSize: '11px', color: '#9ca3af', whiteSpace: 'nowrap' }}>
+        {formatNotificationTime(notification.created_at)}
+      </span>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [eventsLoading, setEventsLoading] = useState(true);
+  const [notifications, setNotifications] = useState([]);
+  const [notifsLoading, setNotifsLoading] = useState(true);
 
   useEffect(() => {
     getUpcomingEvents()
       .then(res => setEvents(res.data))
       .catch(() => setEvents([]))
       .finally(() => setEventsLoading(false));
+
+    getNotifications()
+      .then(res => setNotifications(res.data))
+      .catch(() => setNotifications([]))
+      .finally(() => setNotifsLoading(false));
   }, []);
+
+  async function handleRead(id) {
+    setNotifications(prev =>
+      prev.map(n => n.id === id ? { ...n, is_read: true } : n)
+    );
+    try {
+      await markNotificationRead(id);
+    } catch {
+      setNotifications(prev =>
+        prev.map(n => n.id === id ? { ...n, is_read: false } : n)
+      );
+    }
+  }
+
+  const unreadCount = notifications.filter(n => !n.is_read).length;
 
   return (
     <div style={{
@@ -181,6 +243,50 @@ export default function Dashboard() {
         >
           View Committees →
         </button>
+      </motion.div>
+
+      {/* Notifications */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.12 }}
+        style={{ marginBottom: '32px' }}
+      >
+        <h2 style={{
+          fontWeight: 700,
+          color: 'var(--blue)',
+          fontSize: '20px',
+          marginBottom: '16px',
+          marginTop: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}>
+          Notifications
+          {unreadCount > 0 && (
+            <span style={{
+              background: '#D33A02',
+              color: '#fff',
+              borderRadius: '999px',
+              padding: '2px 9px',
+              fontSize: '12px',
+              fontWeight: 700,
+            }}>
+              {unreadCount}
+            </span>
+          )}
+        </h2>
+        {notifsLoading ? (
+          <p style={{ color: '#6b7280' }}>Loading notifications…</p>
+        ) : notifications.length === 0 ? (
+          <p style={{ color: '#6b7280' }}>You're all caught up — no notifications.</p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {notifications.map(n => (
+              <NotificationItem key={n.id} notification={n} onRead={handleRead} />
+            ))}
+          </div>
+        )}
       </motion.div>
 
       {/* Upcoming events */}

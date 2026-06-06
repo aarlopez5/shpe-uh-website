@@ -8,6 +8,8 @@ import models.user.multi_selections.user_interested_industries  # noqa: F401
 import models.user.multi_selections.user_country_origin  # noqa: F401
 import models.event      # noqa: F401
 import models.committee  # noqa: F401
+import models.committee_message  # noqa: F401
+import models.notification  # noqa: F401
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"

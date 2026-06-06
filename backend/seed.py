@@ -68,7 +68,66 @@ def seed_test_user(s: Session):
 
         create_user(s, test_user)
         print("Seeded test user.")
-            
+
+
+def seed_chair_user(s: Session):
+        # Seed an Academic Chair user only if it does not already exist
+        existing_user = s.exec(
+            select(User).where(User.cougarnet_email == "academic.chair@cougarnet.uh.edu")
+        ).first()
+
+        if existing_user:
+            print("Skipped chair user — already exists.")
+            return
+
+        chair_user = UserCreate(
+            first_name="Ana",
+            last_name="Chair",
+
+            cougarnet_email="academic.chair@cougarnet.uh.edu",
+            personal_email="ana.chair@gmail.com",
+
+            password="password123",
+
+            role=Role.academic_chair,
+            points=0,
+
+            phone_num="7135550123",
+            psid="7654321",
+            birthday=date(2000, 1, 1),
+
+            gender=Gender.female,
+            first_gen=True,
+
+            college=Colleges.nsm,
+            major="Computer Science",
+            classification=Classification.senior,
+            gpa=GPA.gpa_350_400,
+            exp_grad_date=ExpGradDate.spring_2027,
+
+            in_slack=True,
+            is_returning=MembershipStatus.returning_1,
+            is_national_member=True,
+            shirt_size=ShirtSize.m,
+
+            race_and_ethnicity=[
+                RaceEthnicity.hispanic,
+            ],
+            prof_dev=[
+                ProfDev.internships,
+            ],
+            interested_industries=[
+                Industry.electronics,
+            ],
+            country_origin=[
+                "Mexico",
+            ],
+        )
+
+        create_user(s, chair_user)
+        print("Seeded Academic Chair user.")
+
+
 def seed_committees(s: Session):
     now = datetime.utcnow()
     
@@ -76,11 +135,11 @@ def seed_committees(s: Session):
     existing_committees = s.exec(select(Committee)).all()
     if not existing_committees:
         committees = [
-            Committee(name="Academic", description="Study sessions, tutoring, and academic support for members."),
-            Committee(name="Professional", description="Career fairs, resume workshops, and networking events."),
-            Committee(name="Outreach", description="STEM outreach programs to K-12 schools in the Houston area."),
-            Committee(name="Social", description="Events that build community and celebrate our culture."),
-            Committee(name="MentorSHPE", description="Peer mentorship program pairing upperclassmen with freshmen."),
+            Committee(name="Academic", description="Study sessions, tutoring, and academic support for members.", chair_role=Role.academic_chair),
+            Committee(name="Professional", description="Career fairs, resume workshops, and networking events.", chair_role=Role.professional_chair),
+            Committee(name="Outreach", description="STEM outreach programs to K-12 schools in the Houston area.", chair_role=Role.outreach_chair),
+            Committee(name="Social", description="Events that build community and celebrate our culture.", chair_role=Role.social_chair),
+            Committee(name="MentorSHPE", description="Peer mentorship program pairing upperclassmen with freshmen.", chair_role=Role.mentorshpe_chair),
         ]
         s.add_all(committees)
         print("Seeded 5 committees.")
@@ -125,6 +184,7 @@ def seed():
 
     with Session(engine) as s:
         seed_test_user(s)
+        seed_chair_user(s)
         seed_committees(s)
         s.commit()
         
