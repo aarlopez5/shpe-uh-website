@@ -102,6 +102,7 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 | `/membershpe` | `pages/membershpe.jsx` | No |
 | `/sponsors` | `pages/sponsors.jsx` | No |
 | `/gallery` | `pages/gallery.jsx` | No |
+| `/calendar` | `pages/calendar.jsx` | No |
 | `/get-involved` | `pages/get-involved.jsx` (commented out) | No |
 | `/dashboard` | `pages/dashboard.jsx` | Yes (PrivateRoute) |
 | `/committees` | `pages/committees.jsx` | Yes (PrivateRoute) |
@@ -116,6 +117,7 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 | POST | `/signup` | No | Creates user, returns JWT token |
 | GET | `/me` | Yes | Returns current user (includes `points`) |
 | GET | `/events/upcoming?days=7` | Yes | Upcoming events within N days |
+| GET | `/events` | No | All events ordered by start_time (public, powers the calendar) |
 | GET | `/committees` | Yes | All committees with `is_member`, `is_chair`, and `chair` (name + email) |
 | POST | `/committees/{id}/join` | Yes | Join a committee (notifies the member + the chair) |
 | DELETE | `/committees/{id}/leave` | Yes | Leave a committee |
@@ -138,7 +140,7 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 SQLite stores datetimes as plain text. Store and compare using naive UTC datetimes (`datetime.utcnow()`), not timezone-aware ones. The `Event.start_time` field uses naive UTC. On the frontend, append `'Z'` when constructing a `Date` object so the browser interprets it as UTC: `new Date(event.start_time + 'Z')`.
 
 ## Authenticated API calls
-New API functions in `api/api.js` read the token from `localStorage` via the internal `authHeaders()` helper — do not pass the token as a parameter (that pattern is only used by the legacy `getMe(token)` function).
+New API functions in `api/api.js` read the token from `localStorage` via the internal `authHeaders()` helper — do not pass the token as a parameter (that pattern is only used by the legacy `getMe(token)` function). **Public** endpoints (e.g. `getAllEvents()` → `GET /events`, which powers the public `/calendar` page) must NOT send `authHeaders()`.
 
 ## Before Writing Code
 1. Check this file for existing patterns — follow them exactly

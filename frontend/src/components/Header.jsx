@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import shpeHoriztonalLogo from "../assets/logos/shpeHorizontalLogo.png";
@@ -11,6 +11,7 @@ const links = [
   { label: "MemberSHPE", to: "/membershpe" },
   { label: "Our Sponsors", to: "/sponsors" },
   { label: "Gallery", to: "/gallery" },
+  { label: "Calendar", to: "/calendar" },
 ];
 
 function NavItem({ to, children }) {
@@ -40,9 +41,13 @@ export default function Header() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  useEffect(() => {
+  // Close the mobile menu whenever the route changes. Render-phase reset
+  // instead of an effect — see "You Might Not Need an Effect" (React docs).
+  const [prevPath, setPrevPath] = useState(location.pathname);
+  if (prevPath !== location.pathname) {
+    setPrevPath(location.pathname);
     setIsMobileMenuOpen(false);
-  }, [location.pathname]);
+  }
 
   function handleSignOut() {
     logout();

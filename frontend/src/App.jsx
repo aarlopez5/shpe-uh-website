@@ -13,6 +13,7 @@ import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 import Dashboard from './pages/dashboard';
 import Committees from './pages/committees';
+import Calendar from './pages/calendar';
 
 export default function App() {
 	return (
@@ -26,6 +27,7 @@ export default function App() {
 					<Route path="/membershpe" element={<MemberSHPE />} />
 					<Route path="/sponsors" element={<Sponsors />} />
 					<Route path="/gallery" element={<Gallery />} />
+					<Route path="/calendar" element={<Calendar />} />
 					<Route path="/signin" element={<SignIn />} />
 					<Route path="/signup" element={<SignUp />} />
 					<Route

@@ -106,6 +106,11 @@ async def get_upcoming_events(
     return session.exec(stmt).all()
 
 
+@app.get('/events', response_model=list[EventOut])
+async def get_all_events(session: SessionDependencies):
+    return session.exec(select(Event).order_by(Event.start_time)).all()
+
+
 def get_committee_or_404(session, committee_id: int) -> Committee:
     committee = session.get(Committee, committee_id)
     if not committee:

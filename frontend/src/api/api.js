@@ -32,6 +32,10 @@ export function getUpcomingEvents(days = 7) {
   return api.get(`/events/upcoming?days=${days}`, { headers: authHeaders() });
 }
 
+export function getAllEvents() {
+  return api.get("/events");
+}
+
 export function getCommittees() {
   return api.get("/committees", { headers: authHeaders() });
 }
