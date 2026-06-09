@@ -2,7 +2,7 @@ from sqlmodel import Session
 
 from models.user.user import User
 from security.hashing import verify_password
-from .get_user import get_user_by_email
+from .user_services import get_user_by_email
 
 def authenticate_user(session: Session, email: str, password: str) -> User | None:
     user = get_user_by_email(session, email)

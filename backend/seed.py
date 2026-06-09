@@ -10,7 +10,7 @@ from models.committee import Committee
 from models.user.user import User
 from models.user.user_schemas import UserCreate
 from models.user.user_enums import ProfDev, RaceEthnicity, Role, Gender, Colleges, Classification, GPA, ExpGradDate, MembershipStatus, ShirtSize, Industry
-from services.create_user import create_user
+from services.user_services import create_user
 
 def seed_test_user(s: Session):
         # Seed test user only if it does not already exist

@@ -5,7 +5,7 @@ import jwt
 from jwt.exceptions import InvalidTokenError
 
 from security.jwt import oauth2_scheme, SECRET_KEY, ALGORITHM, TokenData
-from services.get_user import get_user_by_email
+from services.user_services import get_user_by_email
 from database import get_session
 
 SessionDependencies = Annotated[Session, Depends(get_session)]
