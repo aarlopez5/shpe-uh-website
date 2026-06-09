@@ -13,119 +13,119 @@ from models.user.user_enums import ProfDev, RaceEthnicity, Role, Gender, College
 from services.user_services import create_user
 
 def seed_test_user(s: Session):
-        # Seed test user only if it does not already exist
-        existing_user = s.exec(
-            select(User).where(User.cougarnet_email == "test@cougarnet.uh.edu")
-        ).first()
+    # Seed test user only if it does not already exist
+    existing_user = s.exec(
+        select(User).where(User.cougarnet_email == "test@cougarnet.uh.edu")
+    ).first()
 
-        if existing_user:
-            print("Skipped test user — already exists.")
-            return
-            
-        test_user = UserCreate(
-            first_name="Test",
-            last_name="User",
+    if existing_user:
+        print("Skipped test user — already exists.")
+        return
+        
+    test_user = UserCreate(
+        first_name="Test",
+        last_name="User",
 
-            cougarnet_email="test@cougarnet.uh.edu",
-            personal_email="test@gmail.com",
+        cougarnet_email="test@cougarnet.uh.edu",
+        personal_email="test@gmail.com",
 
-            password="password123",
+        password="password123",
 
-            role=Role.member,
-            points=0,
+        role=Role.member,
+        points=0,
 
-            phone_num="1234567890",
-            psid="1234567",
-            birthday=date(2000, 1, 1),
+        phone_num="1234567890",
+        psid="1234567",
+        birthday=date(2000, 1, 1),
 
-            gender=Gender.male,
-            first_gen=True,
+        gender=Gender.male,
+        first_gen=True,
 
-            college=Colleges.nsm,
-            major="Computer Science",
-            classification=Classification.senior,
-            gpa=GPA.gpa_350_400,
-            exp_grad_date=ExpGradDate.spring_2027,
+        college=Colleges.nsm,
+        major="Computer Science",
+        classification=Classification.senior,
+        gpa=GPA.gpa_350_400,
+        exp_grad_date=ExpGradDate.spring_2027,
 
-            in_slack=True,
-            is_returning=MembershipStatus.new,
-            is_national_member=True,
-            shirt_size=ShirtSize.m,
+        in_slack=True,
+        is_returning=MembershipStatus.new,
+        is_national_member=True,
+        shirt_size=ShirtSize.m,
 
-            race_and_ethnicity=[
-                RaceEthnicity.native_american,
-            ],
-            prof_dev=[
-                ProfDev.internships,
-            ],
-            interested_industries=[
-                Industry.electronics,
-            ],
-            country_origin=[
-                "Mexico",
-            ],
-        )
+        race_and_ethnicity=[
+            RaceEthnicity.native_american,
+        ],
+        prof_dev=[
+            ProfDev.internships,
+        ],
+        interested_industries=[
+            Industry.electronics,
+        ],
+        country_origin=[
+            "Mexico",
+        ],
+    )
 
-        create_user(s, test_user)
-        print("Seeded test user.")
+    create_user(s, test_user)
+    print("Seeded test user.")
 
 
 def seed_chair_user(s: Session):
-        # Seed an Academic Chair user only if it does not already exist
-        existing_user = s.exec(
-            select(User).where(User.cougarnet_email == "academic.chair@cougarnet.uh.edu")
-        ).first()
+    # Seed an Academic Chair user only if it does not already exist
+    existing_user = s.exec(
+        select(User).where(User.cougarnet_email == "academic.chair@cougarnet.uh.edu")
+    ).first()
 
-        if existing_user:
-            print("Skipped chair user — already exists.")
-            return
+    if existing_user:
+        print("Skipped chair user — already exists.")
+        return
 
-        chair_user = UserCreate(
-            first_name="Ana",
-            last_name="Chair",
+    chair_user = UserCreate(
+        first_name="Ana",
+        last_name="Chair",
 
-            cougarnet_email="academic.chair@cougarnet.uh.edu",
-            personal_email="ana.chair@gmail.com",
+        cougarnet_email="academic.chair@cougarnet.uh.edu",
+        personal_email="ana.chair@gmail.com",
 
-            password="password123",
+        password="password123",
 
-            role=Role.academic_chair,
-            points=0,
+        role=Role.academic_chair,
+        points=0,
 
-            phone_num="7135550123",
-            psid="7654321",
-            birthday=date(2000, 1, 1),
+        phone_num="7135550123",
+        psid="7654321",
+        birthday=date(2000, 1, 1),
 
-            gender=Gender.female,
-            first_gen=True,
+        gender=Gender.female,
+        first_gen=True,
 
-            college=Colleges.nsm,
-            major="Computer Science",
-            classification=Classification.senior,
-            gpa=GPA.gpa_350_400,
-            exp_grad_date=ExpGradDate.spring_2027,
+        college=Colleges.nsm,
+        major="Computer Science",
+        classification=Classification.senior,
+        gpa=GPA.gpa_350_400,
+        exp_grad_date=ExpGradDate.spring_2027,
 
-            in_slack=True,
-            is_returning=MembershipStatus.returning_1,
-            is_national_member=True,
-            shirt_size=ShirtSize.m,
+        in_slack=True,
+        is_returning=MembershipStatus.returning_1,
+        is_national_member=True,
+        shirt_size=ShirtSize.m,
 
-            race_and_ethnicity=[
-                RaceEthnicity.hispanic,
-            ],
-            prof_dev=[
-                ProfDev.internships,
-            ],
-            interested_industries=[
-                Industry.electronics,
-            ],
-            country_origin=[
-                "Mexico",
-            ],
-        )
+        race_and_ethnicity=[
+            RaceEthnicity.hispanic,
+        ],
+        prof_dev=[
+            ProfDev.internships,
+        ],
+        interested_industries=[
+            Industry.electronics,
+        ],
+        country_origin=[
+            "Mexico",
+        ],
+    )
 
-        create_user(s, chair_user)
-        print("Seeded Academic Chair user.")
+    create_user(s, chair_user)
+    print("Seeded Academic Chair user.")
 
 
 def seed_committees(s: Session):
