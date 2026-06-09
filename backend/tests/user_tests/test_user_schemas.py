@@ -153,3 +153,137 @@ def test_create_user_requires_one_race_and_ethnicity_option():
         UserCreate(**valid_user_data(
             race_and_ethnicity=[]
         ))
+
+def test_create_user_short_psid_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            psid="123"
+        ))
+
+def test_create_user_long_psid_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            psid="12345678"
+        ))
+
+def test_create_user_short_password_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            password="short"
+        ))
+
+def test_create_user_single_char_first_name_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            first_name="a"
+        ))
+
+def test_create_user_short_phone_num_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            phone_num="123"
+        ))
+
+def test_create_user_long_phone_num_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            phone_num="67676767676767676767676767676767676767676767676767676767"
+        ))
+
+def test_create_user_long_first_name_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            first_name="thisisareallylongnamewhichcontinuesforthelengthoftheentireuniverseidkhowmuchlongertotypethisfor"
+        ))
+
+def test_create_user_long_last_name_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            last_name="thisisareallylongnamewhichcontinuesforthelengthoftheentireuniverseidkhowmuchlongertotypethisfor"
+        ))
+
+def test_create_user_first_name_with_not_valid_char_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            first_name="John!"
+        ))
+
+def test_create_user_last_name_with_not_valid_char_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            first_name="Doe!"
+        ))
+
+def test_create_user_valid_first_names():
+    user = UserCreate(**valid_user_data(first_name="Mary-Jane"))
+    assert user.first_name == "Mary-Jane"
+
+def test_create_user_first_name_with_apostrophe_is_valid():
+    user = UserCreate(**valid_user_data(first_name="O'Brien"))
+    assert user.first_name == "O'Brien"
+
+def test_create_user_first_name_with_accent_is_valid():
+    user = UserCreate(**valid_user_data(first_name="José"))
+    assert user.first_name == "José"
+
+def test_create_user_first_name_with_number_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(first_name="John2"))
+
+def test_create_user_last_name_with_number_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(last_name="Doe2"))
+
+
+def test_create_user_psid_with_letters_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(psid="123abc4"))
+
+def test_create_user_valid_psid():
+    user = UserCreate(**valid_user_data(psid="1234567"))
+    assert user.psid == "1234567"
+
+
+def test_create_user_phone_with_letters_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(phone_num="555-CALL"))
+
+def test_create_user_phone_with_country_code_is_valid():
+    user = UserCreate(**valid_user_data(phone_num="+1 (713) 555-1234"))
+    assert user.phone_num == "+1 (713) 555-1234"
+
+def test_create_user_phone_with_dashes_is_valid():
+    user = UserCreate(**valid_user_data(phone_num="713-555-1234"))
+    assert user.phone_num == "713-555-1234"
+
+
+def test_create_user_password_exactly_8_chars_is_valid():
+    user = UserCreate(**valid_user_data(password="12345678"))
+    assert user.password == "12345678"
+
+def test_create_user_password_7_chars_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(password="1234567"))
+
+def test_create_user_allows_engineering_major():
+    user = UserCreate(**valid_user_data(
+        college=Colleges.engineering,
+        major="Computer Engineering"
+    ))
+    assert user.college == Colleges.engineering
+    assert user.major == "Computer Engineering"
+
+def test_create_user_allows_cot_major():
+    user = UserCreate(**valid_user_data(
+        college=Colleges.cot,
+        major="Cybersecurity"
+    ))
+    assert user.college == Colleges.cot
+    assert user.major == "Cybersecurity"
+
+def test_create_user_cot_student_with_engineering_major_raises_error():
+    with pytest.raises(ValidationError):
+        UserCreate(**valid_user_data(
+            college=Colleges.cot,
+            major="Computer Engineering"
+        ))
