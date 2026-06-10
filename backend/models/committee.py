@@ -2,12 +2,10 @@ from sqlmodel import SQLModel, Field
 
 from models.user.user_enums import Role
 
-
 class ChairOut(SQLModel):
     first_name: str
     last_name: str
     personal_email: str
-
 
 class MemberOut(SQLModel):
     id: int
@@ -15,7 +13,6 @@ class MemberOut(SQLModel):
     last_name: str
     personal_email: str
     phone_num: str
-
 
 class CommitteeOut(SQLModel):
     id: int
@@ -25,15 +22,15 @@ class CommitteeOut(SQLModel):
     is_chair: bool
     chair: ChairOut | None = None
 
-
 class Committee(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     name: str
     description: str
     chair_role: Role | None = Field(default=None)
 
-
 class CommitteeMembership(SQLModel, table=True):
     user_id: int = Field(foreign_key="user.id", primary_key=True)
     committee_id: int = Field(foreign_key="committee.id", primary_key=True)
     status: bool = Field(default=True)
+    is_chair: bool = Field(default=False)
+    

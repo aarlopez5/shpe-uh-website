@@ -36,3 +36,6 @@ def get_user_by_email(session: Session, email: str) -> User | None:
     statement = select(User).where(User.cougarnet_email == email)
     user = session.exec(statement).first()
     return user
+
+def get_user_by_user_id(session: Session, user_id: int) -> User | None:
+    return session.get(User, user_id)

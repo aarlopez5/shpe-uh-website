@@ -6,7 +6,7 @@ import models.committee  # noqa: F401
 import models.user
 
 from models.event import Event
-from models.committee import Committee
+from models.committee import Committee, CommitteeMembership
 from models.user.user import User
 from models.user.user_schemas import UserCreate
 from models.user.user_enums import ProfDev, RaceEthnicity, Role, Gender, Colleges, Classification, GPA, ExpGradDate, MembershipStatus, ShirtSize, Industry
@@ -178,7 +178,39 @@ def seed_committees(s: Session):
     ]
     s.add_all(events)
     print("Seeded 3 events.")
-            
+
+def seed_add_chair_to_committee(s: Session):
+    academic_chair = s.exec(
+        select(User).where(User.cougarnet_email == "academic.chair@cougarnet.uh.edu")
+    ).first()
+    
+    academic_committee = s.exec(
+        select(Committee).where(Committee.name == "Academic")
+    ).first()
+    
+    if not (academic_chair and academic_committee):
+        print("Academic chair or Academic committee does not exist. Cannot seed")
+        return
+    
+    membership = s.exec(
+        select(CommitteeMembership).where(CommitteeMembership.user_id == academic_chair.id)
+    ).first()
+    
+    if membership:
+        print("Skipped creating membership - membership exists")
+        return
+    
+    s.add(
+        CommitteeMembership(
+            user_id=academic_chair.id,
+            committee_id=academic_committee.id,
+            status=True,
+            is_chair=True
+        )
+    )
+    
+    print("Seeded membership")
+
 def seed():
     create_db()
 
@@ -186,6 +218,8 @@ def seed():
         seed_test_user(s)
         seed_chair_user(s)
         seed_committees(s)
+        s.commit()
+        seed_add_chair_to_committee(s)
         s.commit()
         
     print("Done.")
