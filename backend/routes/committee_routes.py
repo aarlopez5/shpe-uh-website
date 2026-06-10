@@ -15,6 +15,8 @@ from sqlmodel import select
 
 from typing import Annotated
 
+from services.user_services import get_user_by_user_id
+
 router = APIRouter(prefix="/committees", tags=["Committee"])
 
 @router.get('', response_model=list[CommitteeOut])
@@ -221,7 +223,7 @@ async def get_committee_messages(
         sender = senders.get(msg.sender_id)
         
         if sender is None:
-            sender = session.get(User, msg.sender_id)
+            sender = get_user_by_user_id(session, msg.sender_id)
             senders[msg.sender_id] = sender
             
         sender_name = f"{sender.first_name} {sender.last_name}" if sender else "Unknown"
