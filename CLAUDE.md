@@ -7,6 +7,8 @@ After every session, update this file if any of the following happened:
 - A correction was made to existing instructions → fix it here
 - A new "lesson learned" emerged → add it to "Key Rules & Lessons Learned"
 
+**Also keep `README.md` in sync.** If a change affects anything the README documents — features, setup steps, env vars, seeded accounts, project structure, pages, API endpoints, or test instructions — update the corresponding README section in the same session. The README is user-facing: keep it accurate but free of internal lessons/gotchas (those belong here).
+
 Keep this file accurate. It is read at the start of every session.
 
 ## Project Overview
