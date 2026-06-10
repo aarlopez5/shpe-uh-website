@@ -1,16 +1,38 @@
+import asyncio
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from database import create_db
+from sqlmodel import Session
+
+from database import create_db, engine
+from services.reminder_services import send_due_reminders
 
 from routes import auth_routes, committee_routes, event_routes, notification_routes
 
-# Inits the DB
+REMINDER_CHECK_SECONDS = 60
+
+def dispatch_due_reminders():
+    with Session(engine) as session:
+        send_due_reminders(session)
+
+async def reminder_loop():
+    while True:
+        try:
+            await asyncio.to_thread(dispatch_due_reminders)
+        except Exception:
+            logging.exception("Reminder dispatch failed")
+        await asyncio.sleep(REMINDER_CHECK_SECONDS)
+
+# Inits the DB and starts the reminder email loop
 @asynccontextmanager
 async def lifespan(app):
     create_db()
+    reminder_task = asyncio.create_task(reminder_loop())
     yield
+    reminder_task.cancel()
 
 app = FastAPI(lifespan=lifespan)
 

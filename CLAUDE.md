@@ -27,14 +27,16 @@ shpe-uh-website/
       pages/              # home, about, gallery, membershpe, sponsors, get-involved, dashboard, committees
       App.jsx             # Routes
   backend/
-    main.py               # FastAPI app, routes: /login /signup /me /events/upcoming /committees (+ join/leave/members/messages) /notifications
+    main.py               # FastAPI app: includes routers + background reminder email loop (60s)
     database.py           # SQLite engine + session factory
     seed.py               # Seeds test user, Academic Chair user, committees (with chair_role) and sample events — run once: python seed.py
-    models/               # SQLModel table definitions (user.py, committee.py, committee_message.py, notification.py, event.py)
+    routes/               # APIRouters: auth_routes, committee_routes, event_routes (incl. reminders), notification_routes
+    models/               # SQLModel table definitions (user/, committee.py, committee_message.py, notification.py, event.py, event_reminder.py)
     security/             # jwt.py (token creation), hashing.py (Argon2)
-    services/             # auth_user.py, dependencies.py, get_user.py
+    services/             # dependencies.py, user_services.py, committee_services.py, reminder_services.py, email_services.py, time_services.py, auth_user.py
     validators/           # email.py (normalize_email)
-    .env                  # SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES (never commit)
+    tests/                # pytest suite; conftest.py has in-memory-DB fixtures (client, session, user) + make_user/make_event helpers
+    .env                  # SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, optional SMTP_* (never commit)
 ```
 
 ## Running Locally
@@ -58,6 +60,13 @@ Runs on http://localhost:5173
 SECRET_KEY=<random hex — generate with: python3 -c "import secrets; print(secrets.token_hex(32))">
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# Optional — reminder emails. Without SMTP_HOST, emails print to the console (dev mode).
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=<sender address>
+SMTP_PASSWORD=<app password>
+EMAIL_FROM=SHPE UH <noreply@example.org>   # optional, defaults to SMTP_USER
 ```
 
 **Frontend** (`frontend/.env.local`):
@@ -75,7 +84,9 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 ### Backend patterns
 - Always use `SessionDependencies` (from `services/dependencies.py`) for DB sessions — do not create sessions manually
 - Normalize emails with `normalize_email()` from `validators/email.py` before any DB lookup or insert
-- New routes go in `main.py`; new DB models go in `models/` and must be imported before `create_db()` runs so SQLModel registers them
+- New routes go in an APIRouter under `routes/` (included in `main.py`); new DB models go in `models/` and must be imported in `database.py` so SQLModel registers them before `create_db()` runs
+- Use `utcnow()` from `services/time_services.py` for "now" — `datetime.utcnow()` is deprecated and raises DeprecationWarning on Python 3.12
+- Tests live in `tests/<area>_tests/`; run with `.venv/bin/python -m pytest tests/` from `backend/`. API tests use the `client` fixture from `tests/conftest.py` (in-memory SQLite + auth override); `httpx` is required for TestClient
 - Passwords are hashed with `get_password_hash()` from `security/hashing.py` — never store plaintext
 
 ### Frontend patterns
@@ -126,6 +137,9 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 | GET | `/committees/{id}/messages` | Yes (member or chair) | Committee messages, newest first; 403 otherwise |
 | GET | `/notifications` | Yes | Current user's notifications, newest first |
 | POST | `/notifications/{id}/read` | Yes | Mark one notification read |
+| POST | `/events/{id}/remind` | Yes | Set an email reminder for an event (404 unknown event, 409 already set, 400 already started) |
+| DELETE | `/events/{id}/remind` | Yes | Cancel an unsent reminder (404 if none active) |
+| GET | `/events/reminders/me` | Yes | Current user's active (unsent) reminders |
 
 ## Committee leadership, notifications & messaging
 - `Committee.chair_role` (a `Role` enum value, nullable) maps a committee to the chair role that leads it (1:1). There is **no** separate chair-assignment table.
@@ -136,8 +150,16 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 - Frontend: the Committees page shows "Led by …" (chair name + email) on each card; chairs get a **Manage committee** panel (roster with phone + message composer), members get a read-only **View messages** panel. The Dashboard shows a **Notifications** panel (unread highlighted; click to mark read).
 - New `api/api.js` functions: `getCommitteeMembers`, `getCommitteeMessages`, `sendCommitteeMessage`, `getNotifications`, `markNotificationRead`.
 
+## Event email reminders
+- `models/event_reminder.py` — `EventReminder(user_id, event_id, remind_at, sent_at)`. A reminder is "active" while `sent_at` is NULL.
+- Timing (`compute_remind_at` in `services/reminder_services.py`): 24h before the event; if the event is <24h away, 1h before; if <1h away, immediately. Events that already started → 400.
+- `send_due_reminders(session)` emails each due unsent reminder to the user's **personal_email** and stamps `sent_at`. Failed sends stay unsent and are retried. `main.py` runs this in a background asyncio loop every 60s (started in `lifespan`, via `asyncio.to_thread`).
+- `services/email_services.py` — `send_email(to, subject, body)`: SMTP via `SMTP_*` env vars; with no `SMTP_HOST` it prints to the console and returns True (dev mode). SMTP failure returns False (no raise).
+- Frontend: the public `/calendar` page shows a "Remind me by email" button on future events (toggles to cancel). Signed-out users are sent to `/signin` with `location.state.from`, same as PrivateRoute. Reminder state comes from `getMyReminders()`.
+- `api/api.js` functions: `setEventReminder`, `cancelEventReminder`, `getMyReminders`.
+
 ## SQLite / datetime note
-SQLite stores datetimes as plain text. Store and compare using naive UTC datetimes (`datetime.utcnow()`), not timezone-aware ones. The `Event.start_time` field uses naive UTC. On the frontend, append `'Z'` when constructing a `Date` object so the browser interprets it as UTC: `new Date(event.start_time + 'Z')`.
+SQLite stores datetimes as plain text. Store and compare using naive UTC datetimes (`utcnow()` from `services/time_services.py`), not timezone-aware ones. The `Event.start_time` field uses naive UTC. On the frontend, append `'Z'` when constructing a `Date` object so the browser interprets it as UTC: `new Date(event.start_time + 'Z')`.
 
 ## Authenticated API calls
 New API functions in `api/api.js` read the token from `localStorage` via the internal `authHeaders()` helper — do not pass the token as a parameter (that pattern is only used by the legacy `getMe(token)` function). **Public** endpoints (e.g. `getAllEvents()` → `GET /events`, which powers the public `/calendar` page) must NOT send `authHeaders()`.

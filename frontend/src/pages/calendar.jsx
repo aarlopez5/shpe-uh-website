@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getAllEvents } from '../api/api';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getAllEvents, getMyReminders, setEventReminder, cancelEventReminder } from '../api/api';
+import { useAuth } from '../context/AuthContext';
 
 const EVENT_TYPE_COLORS = {
   'General Meeting': '#0070C0',
@@ -53,6 +55,11 @@ export default function Calendar() {
   const [error, setError] = useState('');
   const [viewDate, setViewDate] = useState(() => startOfMonth(new Date()));
   const [selectedDate, setSelectedDate] = useState(() => new Date());
+  const [reminderEventIds, setReminderEventIds] = useState(() => new Set());
+  const [reminderBusyId, setReminderBusyId] = useState(null);
+  const { token } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     getAllEvents()
@@ -60,6 +67,41 @@ export default function Calendar() {
       .catch(() => setError('Could not load events. Please try again.'))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!token) return;
+    getMyReminders()
+      .then(res => setReminderEventIds(new Set(res.data.map(r => r.event_id))))
+      .catch(() => {});
+  }, [token]);
+
+  async function toggleReminder(ev) {
+    if (!token) {
+      navigate('/signin', { state: { from: location } });
+      return;
+    }
+    setReminderBusyId(ev.id);
+    try {
+      if (reminderEventIds.has(ev.id)) {
+        await cancelEventReminder(ev.id);
+        setReminderEventIds(prev => {
+          const next = new Set(prev);
+          next.delete(ev.id);
+          return next;
+        });
+      } else {
+        await setEventReminder(ev.id);
+        setReminderEventIds(prev => new Set(prev).add(ev.id));
+      }
+    } catch (err) {
+      // 409 = reminder already exists on the server; sync local state to match
+      if (err.response?.status === 409) {
+        setReminderEventIds(prev => new Set(prev).add(ev.id));
+      }
+    } finally {
+      setReminderBusyId(null);
+    }
+  }
 
   // Bucket events by local day key
   const eventsByDay = useMemo(() => {
@@ -293,6 +335,20 @@ export default function Calendar() {
                         <p style={{ margin: '6px 0 0', color: '#6b7280', fontSize: '13px' }}>
                           {ev.description}
                         </p>
+                      )}
+                      {parseUTC(ev.start_time) > new Date() && (
+                        <button
+                          className="ghostBtn"
+                          onClick={() => toggleReminder(ev)}
+                          disabled={reminderBusyId === ev.id}
+                          style={{ marginTop: '10px', fontSize: '13px', padding: '5px 12px' }}
+                        >
+                          {!token
+                            ? '🔔 Sign in to get a reminder'
+                            : reminderEventIds.has(ev.id)
+                              ? '🔕 Cancel email reminder'
+                              : '🔔 Remind me by email'}
+                        </button>
                       )}
                     </div>
                   ))}

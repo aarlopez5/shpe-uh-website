@@ -60,6 +60,18 @@ export function sendCommitteeMessage(committeeId, body) {
   return api.post(`/committees/${committeeId}/messages`, { body }, { headers: authHeaders() });
 }
 
+export function setEventReminder(eventId) {
+  return api.post(`/events/${eventId}/remind`, {}, { headers: authHeaders() });
+}
+
+export function cancelEventReminder(eventId) {
+  return api.delete(`/events/${eventId}/remind`, { headers: authHeaders() });
+}
+
+export function getMyReminders() {
+  return api.get("/events/reminders/me", { headers: authHeaders() });
+}
+
 export function getNotifications() {
   return api.get("/notifications", { headers: authHeaders() });
 }
