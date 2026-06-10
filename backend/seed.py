@@ -12,6 +12,27 @@ from models.user.user_schemas import UserCreate
 from models.user.user_enums import ProfDev, RaceEthnicity, Role, Gender, Colleges, Classification, GPA, ExpGradDate, MembershipStatus, ShirtSize, Industry
 from services.user_services import create_user
 
+# Official committee roster. Each committee has exactly one chair role;
+# co-chairs share that role and each get a CommitteeMembership with is_chair=True.
+# Format: (committee name, description, chair role, [chair full names])
+COMMITTEE_ROSTER = [
+    ("Academic", "Study sessions, tutoring, and academic support for members.", Role.academic_chair, ["Angel Montoya", "Sophia Rodriguez"]),
+    ("Athletics and Wellness", "Intramural sports, fitness events, and wellness activities.", Role.athletic_chair, ["Smiley Trenton", "Ean Plasencia"]),
+    ("CFC", "Plans and runs the SHPE UH career fair and recruiter relations.", Role.career_fair_chair, ["Sara Romero"]),
+    ("Engineering Events Coordinator", "Coordinates engineering competitions and technical events.", Role.eec_chair, ["David Cohen", "Ethan Lopez"]),
+    ("Marketing", "Social media, branding, and chapter promotion.", Role.marketing_chair, ["Valeria Zabala"]),
+    ("MentorSHPE", "Peer mentorship program pairing upperclassmen with freshmen.", Role.mentorshpe_chair, ["Nicolas Horton", "Mia Flores"]),
+    ("Outreach", "STEM outreach programs to K-12 schools in the Houston area.", Role.outreach_chair, ["Khris Flores"]),
+    ("Professional", "Resume workshops, networking events, and professional development.", Role.professional_chair, ["Rhonmar Joseph Marges"]),
+    ("Projects", "Hands-on technical projects and competition teams.", Role.projects_chair, ["Lorenzo Ramos", "Alfonso Salas"]),
+    ("SHPE Jr", "Mentors local high school SHPE Jr chapters.", Role.shpe_jr_chair, ["Isabela Morales", "Blake Weaver"]),
+    ("Social", "Events that build community and celebrate our culture.", Role.social_chair, ["Anahi Salinas", "Samuel Avendano"]),
+    ("SHPEtina", "Empowering Latinas in STEM through community and professional growth.", Role.shpetina_chair, ["Alexi Urbina", "Marylin Uriostegui"]),
+    ("Web Development", "Builds and maintains the chapter website.", Role.web_dev_chair, ["Elvin Paz"]),
+    ("Member Relations", "Member engagement, feedback, and retention.", Role.member_relations_chair, ["Gabriela Barreno"]),
+]
+
+
 def seed_test_user(s: Session):
     # Seed test user only if it does not already exist
     existing_user = s.exec(
@@ -21,7 +42,7 @@ def seed_test_user(s: Session):
     if existing_user:
         print("Skipped test user — already exists.")
         return
-        
+
     test_user = UserCreate(
         first_name="Test",
         last_name="User",
@@ -70,34 +91,26 @@ def seed_test_user(s: Session):
     print("Seeded test user.")
 
 
-def seed_chair_user(s: Session):
-    # Seed an Academic Chair user only if it does not already exist
-    existing_user = s.exec(
-        select(User).where(User.cougarnet_email == "academic.chair@cougarnet.uh.edu")
-    ).first()
+def chair_user_create(first_name: str, last_name: str, role: Role, idx: int) -> UserCreate:
+    slug = f"{first_name}.{last_name}".lower().replace(" ", ".").replace("'", "")
+    return UserCreate(
+        first_name=first_name,
+        last_name=last_name,
 
-    if existing_user:
-        print("Skipped chair user — already exists.")
-        return
-
-    chair_user = UserCreate(
-        first_name="Ana",
-        last_name="Chair",
-
-        cougarnet_email="academic.chair@cougarnet.uh.edu",
-        personal_email="ana.chair@gmail.com",
+        cougarnet_email=f"{slug}@cougarnet.uh.edu",
+        personal_email=f"{slug}@gmail.com",
 
         password="password123",
 
-        role=Role.academic_chair,
+        role=role,
         points=0,
 
-        phone_num="7135550123",
-        psid="7654321",
+        phone_num=f"713555{1000 + idx}",
+        psid=f"{2000001 + idx}",
         birthday=date(2000, 1, 1),
 
-        gender=Gender.female,
-        first_gen=True,
+        gender=Gender.not_say,
+        first_gen=False,
 
         college=Colleges.nsm,
         major="Computer Science",
@@ -120,31 +133,57 @@ def seed_chair_user(s: Session):
             Industry.electronics,
         ],
         country_origin=[
-            "Mexico",
+            "United States",
         ],
     )
 
-    create_user(s, chair_user)
-    print("Seeded Academic Chair user.")
+
+def seed_committees_and_chairs(s: Session):
+    idx = 0
+    for name, description, chair_role, chair_names in COMMITTEE_ROSTER:
+        committee = s.exec(select(Committee).where(Committee.name == name)).first()
+        if not committee:
+            committee = Committee(name=name, description=description, chair_role=chair_role)
+            s.add(committee)
+            s.commit()
+            s.refresh(committee)
+            print(f"Seeded committee: {name}")
+        else:
+            print(f"Skipped committee — {name} already exists.")
+
+        for full_name in chair_names:
+            first_name, last_name = full_name.rsplit(" ", 1)
+            user_data = chair_user_create(first_name, last_name, chair_role, idx)
+            idx += 1
+
+            user = s.exec(
+                select(User).where(User.cougarnet_email == user_data.cougarnet_email)
+            ).first()
+            if not user:
+                user = create_user(s, user_data)
+                print(f"Seeded chair user: {full_name} ({chair_role.value})")
+            else:
+                print(f"Skipped chair user — {full_name} already exists.")
+
+            membership = s.exec(
+                select(CommitteeMembership).where(
+                    CommitteeMembership.user_id == user.id,
+                    CommitteeMembership.committee_id == committee.id,
+                )
+            ).first()
+            if not membership:
+                s.add(CommitteeMembership(
+                    user_id=user.id,
+                    committee_id=committee.id,
+                    status=True,
+                    is_chair=True,
+                ))
+                print(f"Seeded chair membership: {full_name} -> {name}")
+    s.commit()
 
 
-def seed_committees(s: Session):
+def seed_events(s: Session):
     now = datetime.utcnow()
-    
-    # Seed committees only if none exist
-    existing_committees = s.exec(select(Committee)).all()
-    if not existing_committees:
-        committees = [
-            Committee(name="Academic", description="Study sessions, tutoring, and academic support for members.", chair_role=Role.academic_chair),
-            Committee(name="Professional", description="Career fairs, resume workshops, and networking events.", chair_role=Role.professional_chair),
-            Committee(name="Outreach", description="STEM outreach programs to K-12 schools in the Houston area.", chair_role=Role.outreach_chair),
-            Committee(name="Social", description="Events that build community and celebrate our culture.", chair_role=Role.social_chair),
-            Committee(name="MentorSHPE", description="Peer mentorship program pairing upperclassmen with freshmen.", chair_role=Role.mentorshpe_chair),
-        ]
-        s.add_all(committees)
-        print("Seeded 5 committees.")
-    else:
-        print(f"Skipped committees — {len(existing_committees)} already exist.")
 
     # Seed events (always add fresh ones relative to now)
     events = [
@@ -179,49 +218,16 @@ def seed_committees(s: Session):
     s.add_all(events)
     print("Seeded 3 events.")
 
-def seed_add_chair_to_committee(s: Session):
-    academic_chair = s.exec(
-        select(User).where(User.cougarnet_email == "academic.chair@cougarnet.uh.edu")
-    ).first()
-    
-    academic_committee = s.exec(
-        select(Committee).where(Committee.name == "Academic")
-    ).first()
-    
-    if not (academic_chair and academic_committee):
-        print("Academic chair or Academic committee does not exist. Cannot seed")
-        return
-    
-    membership = s.exec(
-        select(CommitteeMembership).where(CommitteeMembership.user_id == academic_chair.id)
-    ).first()
-    
-    if membership:
-        print("Skipped creating membership - membership exists")
-        return
-    
-    s.add(
-        CommitteeMembership(
-            user_id=academic_chair.id,
-            committee_id=academic_committee.id,
-            status=True,
-            is_chair=True
-        )
-    )
-    
-    print("Seeded membership")
 
 def seed():
     create_db()
 
     with Session(engine) as s:
         seed_test_user(s)
-        seed_chair_user(s)
-        seed_committees(s)
+        seed_committees_and_chairs(s)
+        seed_events(s)
         s.commit()
-        seed_add_chair_to_committee(s)
-        s.commit()
-        
+
     print("Done.")
 
 

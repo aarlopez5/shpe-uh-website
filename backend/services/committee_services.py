@@ -43,19 +43,17 @@ def get_active_memberships_from_user_id(user_id, session):
     ).all()
 
 
-def get_chair_membership_from_committee_id(session, committee_id):
+def get_chair_memberships_from_committee_id(session, committee_id):
     return session.exec(
             select(CommitteeMembership).where(
                 CommitteeMembership.committee_id == committee_id,
-                CommitteeMembership.is_chair == True
+                CommitteeMembership.is_chair == True  # noqa: E712
             )
-        ).first()
-    
-def get_chair_user_from_committee_id(session: Session, committee_id: int) -> User | None:
-    chair_membership = get_chair_membership_from_committee_id(session, committee_id)
-    
-    if not chair_membership:
-        return None
-    
-    return session.get(User, chair_membership.user_id)
-    
+        ).all()
+
+
+def get_chair_users_from_committee_id(session: Session, committee_id: int) -> list[User]:
+    chair_memberships = get_chair_memberships_from_committee_id(session, committee_id)
+
+    users = [session.get(User, membership.user_id) for membership in chair_memberships]
+    return [user for user in users if user]

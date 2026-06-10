@@ -25,6 +25,7 @@ class Role(str, Enum):
     shpetina_chair = "SHPEtina Chair"
     athletic_chair = "Athletic Chair"
     projects_chair = "Projects Chair"
+    member_relations_chair = "Member Relations Chair"
 
 class Gender(str, Enum):
     female = "Female"

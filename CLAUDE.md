@@ -29,7 +29,7 @@ shpe-uh-website/
   backend/
     main.py               # FastAPI app: includes routers + background reminder email loop (60s)
     database.py           # SQLite engine + session factory
-    seed.py               # Seeds test user, Academic Chair user, committees (with chair_role) and sample events — run once: python seed.py
+    seed.py               # Seeds test user, all 14 committees with their real chairs/co-chairs (22 chair users), and sample events — run once: python seed.py
     routes/               # APIRouters: auth_routes, committee_routes, event_routes (incl. reminders), notification_routes
     models/               # SQLModel table definitions (user/, committee.py, committee_message.py, notification.py, event.py, event_reminder.py)
     security/             # jwt.py (token creation), hashing.py (Argon2)
@@ -129,8 +129,8 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 | GET | `/me` | Yes | Returns current user (includes `points`) |
 | GET | `/events/upcoming?days=7` | Yes | Upcoming events within N days |
 | GET | `/events` | No | All events ordered by start_time (public, powers the calendar) |
-| GET | `/committees` | Yes | All committees with `is_member`, `is_chair`, and `chair` (name + email) |
-| POST | `/committees/{id}/join` | Yes | Join a committee (notifies the member + the chair) |
+| GET | `/committees` | Yes | All committees with `is_member`, `is_chair`, and `chairs` (list of name + email) |
+| POST | `/committees/{id}/join` | Yes | Join a committee (notifies the member + every chair) |
 | DELETE | `/committees/{id}/leave` | Yes | Leave a committee |
 | GET | `/committees/{id}/members` | Yes (chair only) | Roster with name, email, phone; 403 if not the chair |
 | POST | `/committees/{id}/messages` | Yes (chair only) | Broadcast a message; notifies every active member |
@@ -142,12 +142,12 @@ The `api.js` axios instance reads `VITE_API_URL` — without this set, all API c
 | GET | `/events/reminders/me` | Yes | Current user's active (unsent) reminders |
 
 ## Committee leadership, notifications & messaging
-- `Committee.chair_role` (a `Role` enum value, nullable) maps a committee to the chair role that leads it (1:1). There is **no** separate chair-assignment table.
-  - The **chair of a committee** = the `User` whose `role == committee.chair_role`.
-  - A user **is the chair** of the committee whose `chair_role` equals their own `role`. `CommitteeOut.is_chair` exposes this for the current user.
-- `models/notification.py` — `Notification` rows are per-user (`user_id`), with optional `committee_id`, `is_read`, and a `body` string. Joining a committee creates a welcome notification for the joiner AND a "X joined" notification for the chair. Sending a committee message creates one notification per active member (sender excluded).
+- Committees support **co-chairs**: a committee's chairs are the users with a `CommitteeMembership` row where `is_chair=True` (one row per co-chair). `CommitteeOut.chairs` is a **list** of `ChairOut` (name + email) and `CommitteeOut.is_chair` reflects the current user's membership row.
+- `Committee.chair_role` (a `Role` enum value, nullable) still maps each committee to one chair role (1:1). Co-chairs of the same committee **share the same Role** (e.g. both MentorSHPE co-chairs have `Role.mentorshpe_chair`). Chair-only endpoints are gated by `require_chair`, which checks `user.role == committee.chair_role` — so seed both the role on the user AND the `is_chair` membership row, or chairs will display but lack permissions (or vice versa).
+- The real chair roster lives in `seed.py` (`COMMITTEE_ROSTER`): 14 committees, 22 chairs. Seeded chair logins are `<first>.<last>@cougarnet.uh.edu` / `password123`.
+- `models/notification.py` — `Notification` rows are per-user (`user_id`), with optional `committee_id`, `is_read`, and a `body` string. Joining a committee creates a welcome notification for the joiner AND a "X joined" notification for **every** chair. Sending a committee message creates one notification per active member (sender excluded).
 - `models/committee_message.py` — `CommitteeMessage` is a chair→committee broadcast. `CommitteeMessageOut` includes a resolved `sender_name`.
-- Frontend: the Committees page shows "Led by …" (chair name + email) on each card; chairs get a **Manage committee** panel (roster with phone + message composer), members get a read-only **View messages** panel. The Dashboard shows a **Notifications** panel (unread highlighted; click to mark read).
+- Frontend: the Committees page lists **every** chair (name + email) as a contact line on each card; chairs get a **Manage committee** panel (roster with phone + message composer), members get a read-only **View messages** panel. The Dashboard shows a **Notifications** panel (unread highlighted; click to mark read).
 - New `api/api.js` functions: `getCommitteeMembers`, `getCommitteeMessages`, `sendCommitteeMessage`, `getNotifications`, `markNotificationRead`.
 
 ## Event email reminders
