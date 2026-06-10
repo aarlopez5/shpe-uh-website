@@ -20,7 +20,7 @@ class CommitteeOut(SQLModel):
     description: str
     is_member: bool
     is_chair: bool
-    chair: ChairOut | None = None
+    chairs: list[ChairOut] = []
 
 class Committee(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)

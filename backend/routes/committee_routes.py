@@ -1,4 +1,4 @@
-from services.committee_services import get_chair_user_from_committee_id, is_active_member
+from services.committee_services import get_chair_users_from_committee_id, is_active_member
 from models.committee import ChairOut, CommitteeMembership, CommitteeOut, MemberOut
 from models.committee_message import CommitteeMessage, CommitteeMessageCreate, CommitteeMessageOut
 from models.notification import Notification
@@ -32,14 +32,17 @@ async def get_committees(
     
     result = []
     for committee in committees:
-        chair_user = get_chair_user_from_committee_id(session, committee.id)
-        
-        chair_info = ChairOut(
+        chair_users = get_chair_users_from_committee_id(session, committee.id)
+
+        chairs = [
+            ChairOut(
                 first_name=chair_user.first_name,
                 last_name=chair_user.last_name,
                 personal_email=chair_user.personal_email
-            ) if chair_user else None
-        
+            )
+            for chair_user in chair_users
+        ]
+
         result.append(
             CommitteeOut(
                 id=committee.id,
@@ -47,7 +50,7 @@ async def get_committees(
                 description=committee.description,
                 is_member=committee.id in membership_committee_ids,
                 is_chair=committee.id in chair_committee_ids,
-                chair=chair_info
+                chairs=chairs
             )
         )
     
@@ -87,10 +90,13 @@ async def join_committee(
         committee_id=committee_id,
     ))
 
-    # Notify the chair (if one exists and isn't the joiner)
-    chair = get_chair_user_from_committee_id(session, committee_id)
-    
-    if chair and chair.id != user.id:
+    # Notify the chairs (excluding the joiner if they are one)
+    chairs = get_chair_users_from_committee_id(session, committee_id)
+
+    for chair in chairs:
+        if chair.id == user.id:
+            continue
+
         session.add(Notification(
             user_id=chair.id,
             body=f"{user.first_name} {user.last_name} joined your {committee.name} committee",
@@ -205,9 +211,9 @@ async def get_committee_messages(
     user: Annotated[User, Depends(get_current_user)],
     session: SessionDependencies,
 ):
-    chair_user = get_chair_user_from_committee_id(session, committee_id)
-    is_chair = user.id == chair_user.id if chair_user else False
-    
+    chair_users = get_chair_users_from_committee_id(session, committee_id)
+    is_chair = any(chair.id == user.id for chair in chair_users)
+
     if not is_chair and not is_active_member(session, committee_id, user.id):
         raise HTTPException(status_code=403, detail="You are not a member of this committee")
 

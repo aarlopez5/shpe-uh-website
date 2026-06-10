@@ -219,10 +219,17 @@ function CommitteeCard({ committee, onToggle }) {
           <p style={{ margin: '4px 0 0', color: '#6b7280', fontSize: '14px' }}>
             {committee.description}
           </p>
-          {committee.chair && (
-            <p style={{ margin: '6px 0 0', color: '#374151', fontSize: '13px' }}>
-              👤 Led by {committee.chair.first_name} {committee.chair.last_name} · {committee.chair.personal_email}
-            </p>
+          {committee.chairs?.length > 0 && (
+            <div style={{ margin: '6px 0 0' }}>
+              {committee.chairs.map(chair => (
+                <p
+                  key={chair.personal_email}
+                  style={{ margin: '2px 0 0', color: '#374151', fontSize: '13px' }}
+                >
+                  👤 {chair.first_name} {chair.last_name} · {chair.personal_email}
+                </p>
+              ))}
+            </div>
           )}
         </div>
         <button
