@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import shpeSpirit from "../assets/images/SHPESpiritWeb.png"
 import shpeLogo from "../assets/images/shpelogo.png"
 import homeDecor from "../assets/images/homeDecor.png"
 import waves from "../assets/images/waves.png"
 import polygons from "../assets/images/Deco.png"
 
+import { useAuth } from '../context/AuthContext'
+
 export default function Home() {
 	const [email, setEmail] = useState('');
+	const navigate = useNavigate();
+	const { user } = useAuth()
+
+	const handleMainButtonClick = () => user ? navigate('/dashboard') : navigate('/signup')
+	
 	return (
 		<section className="text-[#001F5B] overflow-x-hidden mt-20">
 			<section className="relative min-h-[90vh] w-full overflow-hidden">
@@ -50,9 +58,10 @@ export default function Home() {
 
 					<button
 						type="button"
-						className="text-white text-xl font-bold p-4 bg-[#D24028] border border-[#0070C0] rounded-[20px]"
-						>
-						Become a Member
+						className="text-white text-xl font-bold p-4 bg-[#D24028] border border-[#7e2704] rounded-[20px] hover:opacity-75 cursor-pointer"
+						onClick={handleMainButtonClick}
+					>
+						{ user ? "Go to Dashboard" : "Become Member"}
 					</button>
 				</div>
 			</section>

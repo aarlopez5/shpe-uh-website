@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { signupUser } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -85,13 +85,17 @@ function getFieldError(field, form) {
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState(emptyForm);
   const [touched, setTouched] = useState({});
   const [countryInput, setCountryInput] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />
+  }
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
